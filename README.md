@@ -1,3 +1,8 @@
+# Forked Repo
+This specific repository is to process some other timeseries datasets and test the results.
+
+# Below is from the original repository:
+
 # PyTorch Implementation of Deep SVDD
 This repository provides a [PyTorch](https://pytorch.org/) implementation of the *Deep SVDD* method presented in our
 ICML 2018 paper ”Deep One-Class Classification”.
