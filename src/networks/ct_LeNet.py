@@ -4,17 +4,32 @@ import torch.nn.functional as F
 
 from base.base_net import BaseNet
 
+import data
+
 
 class CT_LeNet(BaseNet):
 
     def __init__(self):
         super().__init__()
 
-        # TODO find the rep_dim of CT
-        self.rep_dim = 128
+        # DID find the rep_dim of CT
+        self.rep_dim = 64
         self.pool = nn.MaxPool2d(2, 2)
 
-        # TODO find the number of conv layers in CT
+        # TODO make it similar to NeuTraL AD
+        # find the number of conv layers in CT
+        # 1d convolution layers with ReLU activation
+        # no batch normalization is applied
+        # input size [1,3,182]
+
+        # self.conv1 = nn.Conv1d(32, 32, bias=False, kernel_size=3, stride=2)
+        # self.conv2 = nn.Conv1d(32, 64, bias=False, kernel_size=3, stride=2)
+        # self.conv3 = nn.Conv1d(64, 128, bias=False, kernel_size=3, stride=2)
+        # self.conv4 = nn.Conv1d(128, 256, bias=False, kernel_size=3, stride=2)
+        # self.conv5 = nn.Conv1d(256, 256, bias=False, kernel_size=3, stride=2)
+        # self.conv6 = nn.Conv1d(256, 256, bias=False, kernel_size=3, stride=2)
+        # self.fc1 = nn.Conv1d(256, self.rep_dim, bias=False, kernel_size=3, stride=1)
+
         self.conv1 = nn.Conv2d(3, 32, 5, bias=False, padding=2)
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
         self.conv2 = nn.Conv2d(32, 64, 5, bias=False, padding=2)
@@ -22,7 +37,8 @@ class CT_LeNet(BaseNet):
         self.conv3 = nn.Conv2d(64, 128, 5, bias=False, padding=2)
         self.bn2d3 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
         self.fc1 = nn.Linear(128 * 4 * 4, self.rep_dim, bias=False)
-
+        self.bn1d = nn.BatchNorm1d(self.rep_dim, eps=1e-04, affine=False)
+  
     # TODO forward layers will be same as above
     def forward(self, x):
         x = self.conv1(x)
@@ -41,11 +57,11 @@ class CT_LeNet_Autoencoder(BaseNet):
     def __init__(self):
         super().__init__()
 
-        # TODO "rep_dim" same as above
-        self.rep_dim = 128
+        # DID "rep_dim" same as above
+        self.rep_dim = 64
         self.pool = nn.MaxPool2d(2, 2)
 
-        # Encoder (must match the Deep SVDD network above)
+        # TODO Encoder (must match the Deep SVDD network above)
         self.conv1 = nn.Conv2d(3, 32, 5, bias=False, padding=2)
         nn.init.xavier_uniform_(self.conv1.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
@@ -58,7 +74,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         self.fc1 = nn.Linear(128 * 4 * 4, self.rep_dim, bias=False)
         self.bn1d = nn.BatchNorm1d(self.rep_dim, eps=1e-04, affine=False)
 
-        # Decoder
+        # TODO Decoder
         self.deconv1 = nn.ConvTranspose2d(int(self.rep_dim / (4 * 4)), 128, 5, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv1.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d4 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
@@ -71,6 +87,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         self.deconv4 = nn.ConvTranspose2d(32, 3, 5, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv4.weight, gain=nn.init.calculate_gain('leaky_relu'))
 
+    # TODO
     def forward(self, x):
         x = self.conv1(x)
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
