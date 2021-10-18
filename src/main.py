@@ -9,7 +9,7 @@ from utils.visualization.plot_images_grid import plot_images_grid
 from deepSVDD import DeepSVDD
 from datasets.main import load_dataset
 
-import data
+# import data
 
 
 ################################################################################
