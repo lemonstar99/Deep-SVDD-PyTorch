@@ -1,6 +1,7 @@
 """
 from https://github.com/sniezek/keras-character-trajectories-classification
 """
+from base.torchvision_dataset import TorchvisionDataset
 
 import copy
 import random
