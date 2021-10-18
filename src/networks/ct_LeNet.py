@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 from base.base_net import BaseNet
 
-import data
+# import data
 
 
 class CT_LeNet(BaseNet):
