@@ -9,7 +9,7 @@ import random
 import numpy as np
 from keras.utils import np_utils
 
-class CT_Dataset(TorchvisionDataset):
+class CT_Dataset(BaseADDataset):
     # input
     zero_point_that_can_be_skipped = '0,0,0'
     single_sequence_end = ',,'

@@ -24,6 +24,7 @@ class AETrainer(BaseTrainer):
         ae_net = ae_net.to(self.device)
 
         # Get train data loader
+        # TODO this is the current problem.
         train_loader, _ = dataset.loaders(batch_size=self.batch_size, num_workers=self.n_jobs_dataloader)
 
         # Set optimizer (Adam optimizer for now)
@@ -46,6 +47,7 @@ class AETrainer(BaseTrainer):
             loss_epoch = 0.0
             n_batches = 0
             epoch_start_time = time.time()
+            # TODO
             for data in train_loader:
                 inputs, _, _ = data
                 inputs = inputs.to(self.device)
