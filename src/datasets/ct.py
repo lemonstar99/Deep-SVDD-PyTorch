@@ -1,6 +1,25 @@
 """
-from https://github.com/sniezek/keras-character-trajectories-classification
+from https://shashikachamod4u.medium.com/excel-csv-to-pytorch-dataset-def496b6bcc1
 """
+
+import pandas as pd
+import torch
+from torch.utils.data import Dataset
+from sklearn.preprocessing import StandardScaler
+
+
+
+
+
+
+
+
+
+
+
+"""
+from https://github.com/sniezek/keras-character-trajectories-classification
+
 from base.torchvision_dataset import TorchvisionDataset
 
 import copy
@@ -29,6 +48,7 @@ class CT_Dataset(BaseADDataset):
         x, y = zip(*x_y)
 
         test_count = int(test_fraction * len(x))
+        # in this order: x_train, y_train, x_test, y_test
         return np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
 
 
@@ -62,7 +82,7 @@ class CT_Dataset(BaseADDataset):
                 y.append(int(character_class) - 1)
 
         return np_utils.to_categorical(y, number_of_character_classes)
-
+"""
 
 
 """
