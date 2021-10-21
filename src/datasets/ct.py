@@ -40,7 +40,7 @@ class CT_Dataset(TorchvisionDataset):
         random.shuffle(x_y)
         x, y = zip(*x_y)
 
-        test_count = int(test_fraction * len(x))
+        test_count = int(0.1 * len(x))
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
 
