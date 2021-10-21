@@ -53,12 +53,15 @@ class CT_Dataset(TorchvisionDataset):
         # self.X_train = torch.tensor(x_train, dtype=torch.float32)
         # self.y_train = torch.tensor(y_train)
 
-        train_set = MyCT(root=self.root, train=True)
+        # train_set = MyCT(root=self.root, train=True)
         
-        train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
-        self.train_set = Subset(train_set, train_idx_normal)
+        # train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
+        # self.train_set = Subset(train_set, train_idx_normal)
 
-        self.test_set = MyCT(root=self.root)
+        # self.test_set = MyCT(root=self.root)
+
+        train_set = list(zip(np.array(x[test_count:]), np.array(y[test_count:])))
+        test_set = list(zip(np.array(x[:test_count]), np.array(y[:test_count])))
 
     def __len__(self):
         return len(self.y_train)
@@ -97,6 +100,7 @@ def get_output_data():
 
     return np_utils.to_categorical(y, number_of_character_classes)
 
+"""
 class MyCT(TorchvisionDataset):
     # Torchvision CIFAR10 class with patch of __getitem__ method to also return the index of a data sample.
 
@@ -128,3 +132,4 @@ class MyCT(TorchvisionDataset):
             target = self.target_transform(target)
 
         return img, target, index  # only line changed
+"""
