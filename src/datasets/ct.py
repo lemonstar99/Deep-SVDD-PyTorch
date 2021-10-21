@@ -53,14 +53,12 @@ class CT_Dataset(TorchvisionDataset):
         # self.X_train = torch.tensor(x_train, dtype=torch.float32)
         # self.y_train = torch.tensor(y_train)
 
-        train_set = MyCT(root=self.root, train=True, download=True,
-                              transform=None, target_transform=None)
+        train_set = MyCT(root=self.root)
         
         train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
         self.train_set = Subset(train_set, train_idx_normal)
 
-        self.test_set = MyCT(root=self.root, train=False, download=True,
-                                  transform=None, target_transform=None)
+        self.test_set = MyCT(root=self.root)
 
     def __len__(self):
         return len(self.y_train)
@@ -130,59 +128,3 @@ class MyCT(CT_Dataset):
             target = self.target_transform(target)
 
         return img, target, index  # only line changed
-
-
-
-
-
-
-"""
-from https://github.com/sniezek/keras-character-trajectories-classification
-
-    def get_data(test_fraction):
-        x = get_input_data()
-        y = get_output_data()
-
-        
-
-"""
-
-
-"""
-from torch.utils.data import Subset
-from PIL import Image
-# from torchvision.datasets import CIFAR10
-# from base.torchvision_dataset import TorchvisionDataset
-from .preprocessing import get_target_label_idx, global_contrast_normalization
-
-import torchvision.transforms as transforms
-
-class CT_Dataset(TorchvisionDataset):
-
-    def __init__(self, root: str, normal_class=5):
-        # DID what is normal_class in the input of function?
-        # normal_class is the one class chosen from different classes to be the normal one
-        super().__init__(root)
-
-        self.n_classes = 2  # 0: normal, 1: outlier
-        self.normal_classes = tuple([normal_class])
-        self.outlier_classes = list(range(0, 20))
-        self.outlier_classes.remove(normal_class)
-
-        # Pre-computed min and max values (after applying GCN) from train data per class
-        # min_max
-        # TODO calculate min_max (CT has 20 classes so 20 rows with 2 columns)
-
-        # CIFAR-10 preprocessing: GCN (with L1 norm) and min-max feature scaling to [0,1]
-        # DID what does "*3" represent?
-        # multiplication represents the number of dimensions of input data
-        transform = transforms.Compose([transforms.ToTensor(),
-                                        transforms.Lambda(lambda x: global_contrast_normalization(x, scale='l1')),
-                                        transforms.Normalize([min_max[normal_class][0]] * 3,
-                                                             [min_max[normal_class][1] - min_max[normal_class][0]] * 3)])
-
-        target_transform = transforms.Lambda(lambda x: int(x in self.outlier_classes))
-
-        # TODO train and test data is already separated in CT dataset
-
-"""
