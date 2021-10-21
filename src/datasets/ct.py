@@ -20,17 +20,18 @@ from .preprocessing import get_target_label_idx, global_contrast_normalization
 
 import torchvision.transforms as transforms
 
+zero_point_that_can_be_skipped = '0,0,0'
+single_sequence_end = ',,'
+padding_vector = [0.0, 0.0, 0.0]
+longest_sequence_length_with_trimmed_zeros = 182
+longest_sequence_length = 205
+shortest_sequence_length = 109
+# output
+number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
+
 class CT_Dataset(TorchvisionDataset):
 
     def __init__(self):
-        zero_point_that_can_be_skipped = '0,0,0'
-        single_sequence_end = ',,'
-        padding_vector = [0.0, 0.0, 0.0]
-        longest_sequence_length_with_trimmed_zeros = 182
-        longest_sequence_length = 205
-        shortest_sequence_length = 109
-        # output
-        number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
         
         x = get_input_data()
         y = get_output_data()
