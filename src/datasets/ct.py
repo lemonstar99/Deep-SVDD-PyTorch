@@ -65,7 +65,7 @@ class CT_Dataset(TorchvisionDataset):
         x = []
         with open('data/input.csv') as f:
             single_sequence = []
-             point in f:
+            for point in f:
                 if zero_point_that_can_be_skipped in point:
                     continue
 
