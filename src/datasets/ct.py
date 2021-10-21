@@ -32,8 +32,8 @@ class CT_Dataset(TorchvisionDataset):
         # output
         number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
         
-        x = self.get_input_data()
-        y = self.get_output_data()
+        x = get_input_data()
+        y = get_output_data()
 
         x_y = list(zip(x, y))
         random.shuffle(x_y)
@@ -61,7 +61,7 @@ class CT_Dataset(TorchvisionDataset):
     def __getitem__(self, idx):
         return self.X_train[idx], self.y_train[idx]
     
-    def get_input_data():
+def get_input_data():
         x = []
         with open('data/input.csv') as f:
             single_sequence = []
@@ -84,13 +84,13 @@ class CT_Dataset(TorchvisionDataset):
         return x
 
 
-    def get_output_data():
-        y = []
-        with open('data/output.txt') as f:
-            for character_class in f.readlines()[0].split('|'):
-                y.append(int(character_class) - 1)
+def get_output_data():
+    y = []
+    with open('data/output.txt') as f:
+        for character_class in f.readlines()[0].split('|'):
+            y.append(int(character_class) - 1)
 
-        return np_utils.to_categorical(y, number_of_character_classes)
+    return np_utils.to_categorical(y, number_of_character_classes)
 
 class MyCT(CT_Dataset):
     # Torchvision CIFAR10 class with patch of __getitem__ method to also return the index of a data sample.
