@@ -63,7 +63,7 @@ class CT_Dataset(TorchvisionDataset):
     
 def get_input_data():
         x = []
-        with open('data/input.csv') as f:
+        with open('../data/input.csv') as f:
             single_sequence = []
             for point in f:
                 if zero_point_that_can_be_skipped in point:
@@ -86,7 +86,7 @@ def get_input_data():
 
 def get_output_data():
     y = []
-    with open('data/output.txt') as f:
+    with open('../data/output.txt') as f:
         for character_class in f.readlines()[0].split('|'):
             y.append(int(character_class) - 1)
 
