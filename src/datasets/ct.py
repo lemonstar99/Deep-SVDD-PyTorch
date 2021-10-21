@@ -60,8 +60,8 @@ class CT_Dataset(TorchvisionDataset):
 
         # self.test_set = MyCT(root=self.root)
 
-        train_set = list(zip(np.array(x[test_count:]), np.array(y[test_count:])))
-        test_set = list(zip(np.array(x[:test_count]), np.array(y[:test_count])))
+        self.train_set = list(zip(np.array(x[test_count:]), np.array(y[test_count:])))
+        self.test_set = list(zip(np.array(x[:test_count]), np.array(y[:test_count])))
 
     def __len__(self):
         return len(self.y_train)
