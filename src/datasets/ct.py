@@ -92,7 +92,7 @@ class CT_Dataset(TorchvisionDataset):
 
         return np_utils.to_categorical(y, number_of_character_classes)
 
-class MyCT(CT):
+class MyCT(CT_Dataset):
     # Torchvision CIFAR10 class with patch of __getitem__ method to also return the index of a data sample.
 
     def __init__(self, *args, **kwargs):
