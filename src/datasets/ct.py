@@ -1,45 +1,37 @@
 """
-from https://shashikachamod4u.medium.com/excel-csv-to-pytorch-dataset-def496b6bcc1
+implementation sources:
+https://shashikachamod4u.medium.com/excel-csv-to-pytorch-dataset-def496b6bcc1
+and
+https://github.com/sniezek/keras-character-trajectories-classification
 """
 
 import pandas as pd
 import torch
-from torch.utils.data import Dataset
-from sklearn.preprocessing import StandardScaler
-
-
-
-
-
-
-
-
-
-
-
-"""
-from https://github.com/sniezek/keras-character-trajectories-classification
-
-from base.torchvision_dataset import TorchvisionDataset
-
 import copy
 import random
-
 import numpy as np
+from torch.utils.data import Dataset
+from sklearn.preprocessing import StandardScaler
 from keras.utils import np_utils
+from base.torchvision_dataset import TorchvisionDataset
+from torch.utils.data import Subset
+from PIL import Image
+from .preprocessing import get_target_label_idx, global_contrast_normalization
 
-class CT_Dataset(BaseADDataset):
-    # input
-    zero_point_that_can_be_skipped = '0,0,0'
-    single_sequence_end = ',,'
-    padding_vector = [0.0, 0.0, 0.0]
-    longest_sequence_length_with_trimmed_zeros = 182
-    longest_sequence_length = 205
-    shortest_sequence_length = 109
-    # output
-    number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
+import torchvision.transforms as transforms
 
-    def get_data(test_fraction):
+class CT_Dataset(TorchvisionDataset):
+
+    def __init__(self):
+        zero_point_that_can_be_skipped = '0,0,0'
+        single_sequence_end = ',,'
+        padding_vector = [0.0, 0.0, 0.0]
+        longest_sequence_length_with_trimmed_zeros = 182
+        longest_sequence_length = 205
+        shortest_sequence_length = 109
+        # output
+        number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
+        
         x = get_input_data()
         y = get_output_data()
 
@@ -49,14 +41,31 @@ class CT_Dataset(BaseADDataset):
 
         test_count = int(test_fraction * len(x))
         # in this order: x_train, y_train, x_test, y_test
-        return np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
+        # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
 
+        # self.X_train = torch.tensor(x_train, dtype=torch.float32)
+        # self.y_train = torch.tensor(y_train)
 
+        train_set = MyCT(root=self.root, train=True, download=True,
+                              transform=None, target_transform=None)
+        
+        train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
+        self.train_set = Subset(train_set, train_idx_normal)
+
+        self.test_set = MyCT(root=self.root, train=False, download=True,
+                                  transform=None, target_transform=None)
+
+    def __len__(self):
+        return len(self.y_train)
+
+    def __getitem__(self, idx):
+        return self.X_train[idx], self.y_train[idx]
+    
     def get_input_data():
         x = []
-        with open('/data/input.csv') as f:
+        with open('data/input.csv') as f:
             single_sequence = []
-            for point in f:
+             point in f:
                 if zero_point_that_can_be_skipped in point:
                     continue
 
@@ -77,18 +86,64 @@ class CT_Dataset(BaseADDataset):
 
     def get_output_data():
         y = []
-        with open('/data/output.txt') as f:
+        with open('data/output.txt') as f:
             for character_class in f.readlines()[0].split('|'):
                 y.append(int(character_class) - 1)
 
         return np_utils.to_categorical(y, number_of_character_classes)
+
+class MyCT(CT):
+    # Torchvision CIFAR10 class with patch of __getitem__ method to also return the index of a data sample.
+
+    def __init__(self, *args, **kwargs):
+        super(MyCT, self).__init__(*args, **kwargs)
+
+    def __getitem__(self, index):
+        # Override the original method of the CIFAR10 class.
+        # Args:
+        #     index (int): Index
+        # Returns:
+        #     triple: (image, target, index) where target is index of the target class.
+        
+        if self.train:
+            img, target = self.np.array(x[test_count:]), self.np.array(y[test_count:])
+        else:
+            img, target = self.np.array(x[:test_count]), self.np.array(y[:test_count])
+
+        # doing this so that it is consistent with all other datasets
+        # to return a PIL Image
+        # img = Image.fromarray(img)
+
+        # TODO our dataset does not need to be converted to an image. how should I modify this?
+
+        if self.transform is not None:
+            img = self.transform(img)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        return img, target, index  # only line changed
+
+
+
+
+
+
+"""
+from https://github.com/sniezek/keras-character-trajectories-classification
+
+    def get_data(test_fraction):
+        x = get_input_data()
+        y = get_output_data()
+
+        
+
 """
 
 
 """
 from torch.utils.data import Subset
 from PIL import Image
-# TODO CT is not in torchvision
 # from torchvision.datasets import CIFAR10
 # from base.torchvision_dataset import TorchvisionDataset
 from .preprocessing import get_target_label_idx, global_contrast_normalization
@@ -108,16 +163,7 @@ class CT_Dataset(TorchvisionDataset):
         self.outlier_classes.remove(normal_class)
 
         # Pre-computed min and max values (after applying GCN) from train data per class
-        # min_max = [(-28.94083453598571, 13.802961825439636),
-        #            (-6.681770233365245, 9.158067708230273),
-        #            (-34.924463588638204, 14.419298165027628),
-        #            (-10.599172931391799, 11.093187820377565),
-        #            (-11.945022995801637, 10.628045447867583),
-        #            (-9.691969487694928, 8.948326776180823),
-        #            (-9.174940012342555, 13.847014686472365),
-        #            (-6.876682005899029, 12.282371383343161),
-        #            (-15.603507135507172, 15.2464923804279),
-        #            (-6.132882973622672, 8.046098172351265)]
+        # min_max
         # TODO calculate min_max (CT has 20 classes so 20 rows with 2 columns)
 
         # CIFAR-10 preprocessing: GCN (with L1 norm) and min-max feature scaling to [0,1]
@@ -131,46 +177,5 @@ class CT_Dataset(TorchvisionDataset):
         target_transform = transforms.Lambda(lambda x: int(x in self.outlier_classes))
 
         # TODO train and test data is already separated in CT dataset
-        
-        train_set = MyCT(root=self.root, train=True, download=True,
-                              transform=transform, target_transform=target_transform)
-        # Subset train set to normal class
-        train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
-        self.train_set = Subset(train_set, train_idx_normal)
 
-        self.test_set = MyCT(root=self.root, train=False, download=True,
-                                  transform=transform, target_transform=target_transform)
-
-
-class MyCT(CT):
-    # Torchvision CIFAR10 class with patch of __getitem__ method to also return the index of a data sample.
-
-    def __init__(self, *args, **kwargs):
-        super(MyCT, self).__init__(*args, **kwargs)
-
-    def __getitem__(self, index):
-        # Override the original method of the CIFAR10 class.
-        # Args:
-        #     index (int): Index
-        # Returns:
-        #     triple: (image, target, index) where target is index of the target class.
-        
-        if self.train:
-            img, target = self.train_data[index], self.train_labels[index]
-        else:
-            img, target = self.test_data[index], self.test_labels[index]
-
-        # doing this so that it is consistent with all other datasets
-        # to return a PIL Image
-        # img = Image.fromarray(img)
-
-        # TODO our dataset does not need to be converted to an image. how should I modify this?
-
-        if self.transform is not None:
-            img = self.transform(img)
-
-        if self.target_transform is not None:
-            target = self.target_transform(target)
-
-        return img, target, index  # only line changed
 """
