@@ -17,6 +17,7 @@ from base.torchvision_dataset import TorchvisionDataset
 from torch.utils.data import Subset
 from PIL import Image
 from .preprocessing import get_target_label_idx, global_contrast_normalization
+from base.base_dataset import BaseADDataset
 
 import torchvision.transforms as transforms
 
@@ -29,7 +30,7 @@ shortest_sequence_length = 109
 # output
 number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
 
-class CT_Dataset(TorchvisionDataset):
+class CT_Dataset(BaseADDataset):
 
     def __init__(self, root: str, normal_class=0):
         super().__init__(root)
@@ -62,12 +63,6 @@ class CT_Dataset(TorchvisionDataset):
 
         self.train_set = list(zip(np.array(x[test_count:]), np.array(y[test_count:])))
         self.test_set = list(zip(np.array(x[:test_count]), np.array(y[:test_count])))
-
-    def __len__(self):
-        return len(self.y_train)
-
-    def __getitem__(self, idx):
-        return self.X_train[idx], self.y_train[idx]
     
 def get_input_data():
         x = []
