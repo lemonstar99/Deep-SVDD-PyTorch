@@ -86,8 +86,8 @@ def get_input_data():
             single_sequence.append([])
             for point_element in point.split(','):
                 single_sequence[-1].append(float(point_element))
-    print("point_element")
-    print(single_sequence[0])
+    print("x")
+    print(x[0])
     return x
 
 
@@ -97,6 +97,7 @@ def get_output_data():
         for character_class in f.readlines()[0].split('|'):
             y.append(int(character_class) - 1)
     print("y")
+    print(y[0])
     return np_utils.to_categorical(y, number_of_character_classes)
 
 
