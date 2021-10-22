@@ -91,6 +91,7 @@ def get_input_data():
 
 def get_output_data():
     y = []
+    cnt = 0
     with open('../data/output.txt') as f:
         for character_class in f.readlines()[0].split('|'):
             y.append(int(character_class) - 1)
