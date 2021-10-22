@@ -10,7 +10,7 @@ import torch
 import copy
 import random
 import numpy as np
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, TensorDataset
 # from sklearn.preprocessing import StandardScaler
 from keras.utils import np_utils
 from base.torchvision_dataset import TorchvisionDataset
@@ -52,8 +52,8 @@ class CT_Dataset(TorchvisionDataset):
         # train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
         # test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
 
-        train_set = Dataset(np.array(x[test_count:]), np.array(y[test_count:]))
-        test_set = Dataset(np.array(x[:test_count]), np.array(y[:test_count]))        
+        train_set = TensorDataset(np.array(x[test_count:]), np.array(y[test_count:]))
+        test_set = TensorDataset(np.array(x[:test_count]), np.array(y[:test_count]))        
         
         print("checkpoint")
         print(train_set)
