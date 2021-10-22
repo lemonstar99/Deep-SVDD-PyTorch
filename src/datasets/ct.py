@@ -59,6 +59,7 @@ class CT_Dataset(TorchvisionDataset):
         test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
         
         print("checkpoint")
+        print(train_set)
 
         # train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
         # self.train_set = Subset(train_set, train_idx_normal)
@@ -116,6 +117,5 @@ class MyCT(Dataset):
             X = x_values[:idx]
             y = y_values[:idx]
         
-        print("Success loading train and test set!")
         return X, y
 
