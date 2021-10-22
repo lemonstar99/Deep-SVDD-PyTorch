@@ -96,7 +96,7 @@ def get_output_data():
         for character_class in f.readlines()[0].split('|'):
             y.append(int(character_class) - 1)
             cnt += 1
-    print(cnt)
+    print(np_utils.to_categorical(y, number_of_character_classes))
     return np_utils.to_categorical(y, number_of_character_classes)
 
 
