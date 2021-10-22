@@ -56,7 +56,7 @@ class CT_Dataset(TorchvisionDataset):
 
         train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
         test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
-        print(train_set)
+        
         # train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
         # self.train_set = Subset(train_set, train_idx_normal)
 
@@ -111,5 +111,7 @@ class MyCT(Dataset):
         else:
             X = np.array(x[:idx])
             y = np.array(y[:idx])
+        
+        print(y)
         return X, y
 
