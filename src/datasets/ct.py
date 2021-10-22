@@ -47,8 +47,6 @@ class CT_Dataset(TorchvisionDataset):
         random.shuffle(x_y)
         x, y = zip(*x_y)
         test_count = int(0.1 * len(x))
-        print(test_count)
-
         
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
@@ -58,7 +56,7 @@ class CT_Dataset(TorchvisionDataset):
 
         train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
         test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
-        
+        print(train_set)
         # train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
         # self.train_set = Subset(train_set, train_idx_normal)
 
