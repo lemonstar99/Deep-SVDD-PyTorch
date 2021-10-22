@@ -54,8 +54,8 @@ class CT_Dataset(TorchvisionDataset):
         # self.X_train = torch.tensor(x_train, dtype=torch.float32)
         # self.y_train = torch.tensor(y_train)
 
-        train_set = MyCT(root=self.root, x_values=x, y_values=y, idx=test_count, train=True)
-        test_set = MyCT(root=self.root, x_values=x, y_values=y, idx=test_count, train=False)
+        train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
+        test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
         
         # train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
         # self.train_set = Subset(train_set, train_idx_normal)
