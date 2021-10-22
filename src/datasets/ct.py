@@ -20,6 +20,8 @@ from .preprocessing import get_target_label_idx, global_contrast_normalization
 
 import torchvision.transforms as transforms
 
+import logging
+
 zero_point_that_can_be_skipped = '0,0,0'
 single_sequence_end = ',,'
 padding_vector = [0.0, 0.0, 0.0]
