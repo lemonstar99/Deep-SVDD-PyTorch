@@ -52,8 +52,8 @@ class CT_Dataset(TorchvisionDataset):
         # train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
         # test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
 
-        train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])))
-        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])))        
+        self.train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])))
+        self.test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])))        
         
         print("checkpoint")
         print(train_set)
