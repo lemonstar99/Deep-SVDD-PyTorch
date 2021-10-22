@@ -112,6 +112,6 @@ class MyCT(Dataset):
             X = np.array(x[:idx])
             y = np.array(y[:idx])
         
-        print(y)
+        print("Success loading train and test set!")
         return X, y
 
