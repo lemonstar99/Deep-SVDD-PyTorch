@@ -31,7 +31,7 @@ number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
 
 class CT_Dataset(TorchvisionDataset):
 
-    def __init__(self, normal_class=0):
+    def __init__(self, root: str, normal_class=0):
 
         # super().__init__(root)
 
