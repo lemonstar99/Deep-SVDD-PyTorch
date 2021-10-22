@@ -29,7 +29,7 @@ shortest_sequence_length = 109
 # output
 number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
 
-class CT_Dataset(Dataset):
+class CT_Dataset(TorchvisionDataset):
 
     def __init__(self, root: str, normal_class=0):
 
@@ -58,10 +58,9 @@ class CT_Dataset(Dataset):
         # self.X_train = torch.tensor(x_train, dtype=torch.float32)
         # self.y_train = torch.tensor(y_train)
 
-        # train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
-        # test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
-        train_set = Dataset(np.array(x[test_count:]), np.array(y[test_count:])
-        test_set = Dataset(np.array(x[:test_count]), np.array(y[:test_count])
+        train_set = MyCT(x_values=torch.tensor(x), y_values=torch.tensor(y), idx=test_count, train=True)
+        test_set = MyCT(x_values=torch.tensor(x), y_values=torch.tensor(y), idx=test_count, train=False)
+        
 
         # train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
         # self.train_set = Subset(train_set, train_idx_normal)
