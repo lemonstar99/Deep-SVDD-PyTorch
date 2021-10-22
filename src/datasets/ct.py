@@ -34,7 +34,7 @@ class CT_Dataset(TorchvisionDataset):
     def __init__(self, root: str, normal_class=0):
 
         # super().__init__(root)
-
+        self.root = root
         self.n_classes = 2  # 0: normal, 1: outlier
         self.normal_classes = tuple([normal_class])
         self.outlier_classes = list(range(0, 20))
