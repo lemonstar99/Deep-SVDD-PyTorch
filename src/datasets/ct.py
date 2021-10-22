@@ -20,8 +20,6 @@ from .preprocessing import get_target_label_idx, global_contrast_normalization
 
 import torchvision.transforms as transforms
 
-import logging
-
 zero_point_that_can_be_skipped = '0,0,0'
 single_sequence_end = ',,'
 padding_vector = [0.0, 0.0, 0.0]
@@ -34,7 +32,6 @@ number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
 class CT_Dataset(TorchvisionDataset):
 
     def __init__(self, root: str, normal_class=0):
-        logger = logging.getLogger()
 
         super().__init__(root)
 
@@ -50,7 +47,7 @@ class CT_Dataset(TorchvisionDataset):
         random.shuffle(x_y)
         x, y = zip(*x_y)
         test_count = int(0.1 * len(x))
-        logger.info('This value:{}'.format(test_count))
+        print(test_count)
 
         
         # in this order: x_train, y_train, x_test, y_test
