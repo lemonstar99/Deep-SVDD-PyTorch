@@ -34,6 +34,8 @@ number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
 class CT_Dataset(TorchvisionDataset):
 
     def __init__(self, root: str, normal_class=0):
+        logger = logging.getLogger()
+
         super().__init__(root)
 
         self.n_classes = 2  # 0: normal, 1: outlier
