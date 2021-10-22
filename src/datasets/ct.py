@@ -94,7 +94,8 @@ def get_output_data():
     with open('../data/output.txt') as f:
         for character_class in f.readlines()[0].split('|'):
             y.append(int(character_class) - 1)
-            print(int(character_class) - 1)
+            cnt += 1
+    print(cnt)
     return np_utils.to_categorical(y, number_of_character_classes)
 
 
