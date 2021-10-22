@@ -42,13 +42,13 @@ class CT_Dataset(TorchvisionDataset):
         
         x = get_input_data()
         y = get_output_data()
-        print(x[0])
-        print(y[0])
 
         x_y = list(zip(x, y))
         random.shuffle(x_y)
         x, y = zip(*x_y)
         test_count = int(0.1 * len(x))
+        print(x[test_count])
+        print(y[test_count])
         
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
