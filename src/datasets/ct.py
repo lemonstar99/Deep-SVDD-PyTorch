@@ -106,11 +106,11 @@ class MyCT(Dataset):
 
     def __getitem__(self, idx):
         if self.train:
-            X = np.array(x[idx:])
-            y = np.array(y[idx:])
+            X = np.array(x_values[idx:])
+            y = np.array(y_values[idx:])
         else:
-            X = np.array(x[:idx])
-            y = np.array(y[:idx])
+            X = np.array(x_values[:idx])
+            y = np.array(y_values[:idx])
         
         print("Success loading train and test set!")
         return X, y
