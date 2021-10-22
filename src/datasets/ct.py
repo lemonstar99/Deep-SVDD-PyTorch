@@ -11,11 +11,11 @@ import copy
 import random
 import numpy as np
 from torch.utils.data import Dataset
-from sklearn.preprocessing import StandardScaler
+# from sklearn.preprocessing import StandardScaler
 from keras.utils import np_utils
 from base.torchvision_dataset import TorchvisionDataset
-from torch.utils.data import Subset
-from PIL import Image
+# from torch.utils.data import Subset
+# from PIL import Image
 from .preprocessing import get_target_label_idx, global_contrast_normalization
 
 import torchvision.transforms as transforms
@@ -46,44 +46,44 @@ class CT_Dataset(TorchvisionDataset):
         random.shuffle(x_y)
         x, y = zip(*x_y)
 
-        test_count = int(0.1 * len(x))
+        # test_count = int(0.1 * len(x))
+        
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
 
         # self.X_train = torch.tensor(x_train, dtype=torch.float32)
         # self.y_train = torch.tensor(y_train)
 
-        # train_set = MyCT(root=self.root, train=True)
+        train_set = MyCT(root=self.root, x_values=x, y_values=y, train=True)
         
         # train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
         # self.train_set = Subset(train_set, train_idx_normal)
 
         # self.test_set = MyCT(root=self.root)
 
-        self.train_set = list(zip(np.array(x[test_count:]), np.array(y[test_count:])))
-        self.test_set = list(zip(np.array(x[:test_count]), np.array(y[:test_count])))
+        # self.train_set = list(zip(np.array(x[test_count:]), np.array(y[test_count:])))
+        # self.test_set = list(zip(np.array(x[:test_count]), np.array(y[:test_count])))
     
 def get_input_data():
-        x = []
-        with open('../data/input.csv') as f:
-            single_sequence = []
-            for point in f:
-                if zero_point_that_can_be_skipped in point:
-                    continue
+    x = []
+    with open('../data/input.csv') as f:
+        single_sequence = []
+        for point in f:
+            if zero_point_that_can_be_skipped in point:
+                continue
 
-                if single_sequence_end in point:
-                    for i in range(longest_sequence_length_with_trimmed_zeros - len(single_sequence)):
-                        single_sequence.insert(0, padding_vector)
+            if single_sequence_end in point:
+                for i in range(longest_sequence_length_with_trimmed_zeros - len(single_sequence)):
+                    single_sequence.insert(0, padding_vector)
 
-                    x.append(copy.deepcopy(single_sequence))
+                x.append(copy.deepcopy(single_sequence))
+                single_sequence = []
+                continue
 
-                    single_sequence = []
-                    continue
-
-                single_sequence.append([])
-                for point_element in point.split(','):
-                    single_sequence[-1].append(float(point_element))
-        return x
+            single_sequence.append([])
+            for point_element in point.split(','):
+                single_sequence[-1].append(float(point_element))
+    return x
 
 
 def get_output_data():
@@ -94,36 +94,18 @@ def get_output_data():
 
     return np_utils.to_categorical(y, number_of_character_classes)
 
-"""
-class MyCT(TorchvisionDataset):
-    # Torchvision CIFAR10 class with patch of __getitem__ method to also return the index of a data sample.
 
-    def __init__(self, *args, **kwargs):
-        super(MyCT, self).__init__(*args, **kwargs)
+class MyCT(Dataset):
+
+    def __init__(self, x_values, y_values, idx, train=True):
+        self.x_values = x_values
+        self.y_values = y_values
+        self.idx = idx
+        self.train = train
 
     def __getitem__(self, index):
-        # Override the original method of the CIFAR10 class.
-        # Args:
-        #     index (int): Index
-        # Returns:
-        #     triple: (image, target, index) where target is index of the target class.
-        
         if self.train:
-            img, target = self.np.array(x[test_count:]), self.np.array(y[test_count:])
-        else:
-            img, target = self.np.array(x[:test_count]), self.np.array(y[:test_count])
+            return_set = {np.array(x[test_count:]), np.array(y[test_count:])}
 
-        # doing this so that it is consistent with all other datasets
-        # to return a PIL Image
-        # img = Image.fromarray(img)
+        return set
 
-        # TODO our dataset does not need to be converted to an image. how should I modify this?
-
-        if self.transform is not None:
-            img = self.transform(img)
-
-        if self.target_transform is not None:
-            target = self.target_transform(target)
-
-        return img, target, index  # only line changed
-"""
