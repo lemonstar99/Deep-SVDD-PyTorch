@@ -47,8 +47,8 @@ class CT_Dataset(TorchvisionDataset):
         random.shuffle(x_y)
         x, y = zip(*x_y)
         test_count = int(0.1 * len(x))
-        print(x[test_count])
-        print(y[test_count])
+        # print(x[test_count])
+        # print(y[test_count])
         
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
@@ -93,8 +93,8 @@ def get_output_data():
     y = []
     with open('../data/output.txt') as f:
         for character_class in f.readlines()[0].split('|'):
-            print("y")
             y.append(int(character_class) - 1)
+            print(int(character_class) - 1)
     return np_utils.to_categorical(y, number_of_character_classes)
 
 
