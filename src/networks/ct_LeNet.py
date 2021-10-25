@@ -104,7 +104,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = x.view(x.size(0), -1)
         # x = self.bn1d(self.fc1(x))
         # x = x.view(x.size(0), int(self.rep_dim / (4 * 4)), 4, 4)
-        x = x.view(384000)
+        x = x.view(4, 3840, 5, 5)
         x = F.leaky_relu(x)
         x = self.deconv1(x)
         # x = F.interpolate(F.leaky_relu(self.bn2d4(x)), scale_factor=2)
