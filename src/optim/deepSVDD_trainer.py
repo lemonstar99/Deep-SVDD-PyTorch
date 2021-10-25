@@ -73,7 +73,7 @@ class DeepSVDDTrainer(BaseTrainer):
             epoch_start_time = time.time()
             for data in train_loader:
                 # DID removed index
-                inputs, _ = data
+                inputs, _, _ = data
                 inputs = inputs.to(self.device)
 
                 # Zero the network parameter gradients
@@ -126,7 +126,7 @@ class DeepSVDDTrainer(BaseTrainer):
         with torch.no_grad():
             for data in test_loader:
                 # DID removed index
-                inputs, labels = data
+                inputs, labels, idx = data
                 inputs = inputs.to(self.device)
                 outputs = net(inputs)
                 dist = torch.sum((outputs - self.c) ** 2, dim=1)
@@ -165,7 +165,7 @@ class DeepSVDDTrainer(BaseTrainer):
             for data in train_loader:
                 # get the inputs of the batch
                 # DID removed index
-                inputs, _ = data
+                inputs, _, _ = data
                 inputs = inputs.to(self.device)
                 outputs = net(inputs)
                 n_samples += outputs.shape[0]
