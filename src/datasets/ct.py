@@ -44,7 +44,6 @@ class CT_Dataset(TorchvisionDataset):
         y = get_output_data()
 
         test_count = int(0.1 * len(x))
-        print(test_count)
 
         x_y = list(zip(x, y))
         random.shuffle(x_y)
