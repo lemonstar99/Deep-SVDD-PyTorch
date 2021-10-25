@@ -52,8 +52,8 @@ class CT_Dataset(TorchvisionDataset):
         # train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
         # test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
 
-        train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])))
-        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])))        
+        train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.array(test_count, len(x))))
+        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.array(0, test_count)))        
         
         self.train_set = train_set
         self.test_set = test_set
@@ -117,5 +117,5 @@ class MyCT(Dataset):
             X = x_values[:idx]
             y = y_values[:idx]
         
-        return X, y
+        return X, y, idx
 
