@@ -41,6 +41,8 @@ class CT_LeNet(BaseNet):
   
     # TODO forward layers will be same as above
     def forward(self, x):
+        x = np.expand_dims(x, 1)
+        tensor = tensor.unsqueeze(1)
         x = self.conv1(x)
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
         x = self.conv2(x)
@@ -89,6 +91,8 @@ class CT_LeNet_Autoencoder(BaseNet):
 
     # TODO
     def forward(self, x):
+        x = np.expand_dims(x, 1)
+        tensor = tensor.unsqueeze(1)
         x = self.conv1(x)
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
         x = self.conv2(x)
