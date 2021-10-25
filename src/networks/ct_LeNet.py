@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-import tensorflow as tf
+import tensor
 
 from base.base_net import BaseNet
 
@@ -44,7 +44,7 @@ class CT_LeNet(BaseNet):
     # TODO forward layers will be same as above
     def forward(self, x):
         # x = np.expand_dims(x, 1)
-        x = tf.unsqueeze(1)
+        x = tensor.unsqueeze(1)
         x = self.conv1(x)
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
         x = self.conv2(x)
@@ -94,7 +94,7 @@ class CT_LeNet_Autoencoder(BaseNet):
     # TODO
     def forward(self, x):
         # x = np.expand_dims(x, 1)
-        x = tf.unsqueeze(1)
+        x = tensor.unsqueeze(1)
         x = self.conv1(x)
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
         x = self.conv2(x)
