@@ -67,6 +67,7 @@ class DeepSVDD(object):
                                        n_epochs=n_epochs, lr_milestones=lr_milestones, batch_size=batch_size,
                                        weight_decay=weight_decay, device=device, n_jobs_dataloader=n_jobs_dataloader)
         # Get the model
+        # TODO
         self.net = self.trainer.train(dataset, self.net)
         self.R = float(self.trainer.R.cpu().data.numpy())  # get float
         self.c = self.trainer.c.cpu().data.numpy().tolist()  # get list
