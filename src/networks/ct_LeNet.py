@@ -30,7 +30,7 @@ class CT_LeNet(BaseNet):
         # self.conv6 = nn.Conv1d(256, 256, bias=False, kernel_size=3, stride=2)
         # self.fc1 = nn.Conv1d(256, self.rep_dim, bias=False, kernel_size=3, stride=1)
 
-        self.conv1 = nn.Conv2d(3, 182, 5, bias=False, padding=2)
+        self.conv1 = nn.Conv2d(182, 64, bias=False)
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
         self.conv2 = nn.Conv2d(32, 64, 5, bias=False, padding=2)
         self.bn2d2 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
@@ -62,7 +62,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         self.pool = nn.MaxPool2d(2, 2)
 
         # TODO Encoder (must match the Deep SVDD network above)
-        self.conv1 = nn.Conv2d(3, 182, 5, bias=False, padding=2)
+        self.conv1 = nn.Conv2d(182, 64, bias=False)
         nn.init.xavier_uniform_(self.conv1.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
         self.conv2 = nn.Conv2d(32, 64, 5, bias=False, padding=2)
