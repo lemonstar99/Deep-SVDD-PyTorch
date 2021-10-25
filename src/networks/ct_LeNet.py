@@ -42,11 +42,11 @@ class CT_LeNet(BaseNet):
     # TODO forward layers will be same as above
     def forward(self, x):
         x = self.conv1(x)
-        x = self.pool(F.leaky_relu(self.bn2d1(x)))
+        # x = self.pool(F.leaky_relu(self.bn2d1(x)))
         x = self.conv2(x)
-        x = self.pool(F.leaky_relu(self.bn2d2(x)))
+        # x = self.pool(F.leaky_relu(self.bn2d2(x)))
         x = self.conv3(x)
-        x = self.pool(F.leaky_relu(self.bn2d3(x)))
+        # x = self.pool(F.leaky_relu(self.bn2d3(x)))
         x = x.view(x.size(0), -1)
         x = self.fc1(x)
         return x
