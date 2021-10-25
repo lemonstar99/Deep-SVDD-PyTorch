@@ -22,7 +22,7 @@ class CT_LeNet(BaseNet):
         # no batch normalization is applied
         # input size [1,3,182]
 
-        self.conv1 = nn.Conv1d(32, 32, bias=False, kernel_size=3, stride=2)
+        self.conv1 = nn.Conv1d(182, 32, bias=False, kernel_size=3, stride=2)
         self.conv2 = nn.Conv1d(32, 64, bias=False, kernel_size=3, stride=2)
         self.conv3 = nn.Conv1d(64, 128, bias=False, kernel_size=3, stride=2)
         self.conv4 = nn.Conv1d(128, 256, bias=False, kernel_size=3, stride=2)
