@@ -58,9 +58,6 @@ class CT_Dataset(TorchvisionDataset):
         self.train_set = train_set
         self.test_set = test_set
 
-        print("checkpoint")
-        print(train_set)
-
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
 
