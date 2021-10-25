@@ -37,7 +37,7 @@ class CT_LeNet(BaseNet):
         # self.bn2d2 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
         self.conv3 = nn.Conv2d(64, 128, 5, bias=False, padding=2)
         # self.bn2d3 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
-        self.fc1 = nn.Linear(128 * 4 * 4, self.rep_dim, bias=False)
+        self.fc1 = nn.Linear(1920, self.rep_dim, bias=False)
         # self.bn1d = nn.BatchNorm1d(self.rep_dim, eps=1e-04, affine=False)
   
     # TODO forward layers will be same as above
@@ -51,6 +51,7 @@ class CT_LeNet(BaseNet):
         x = self.conv3(x)
         # x = self.pool(F.leaky_relu(self.bn2d3(x)))
         x = x.view(x.size(0), -1)
+        # TODO error here
         x = self.fc1(x)
         return x
 
