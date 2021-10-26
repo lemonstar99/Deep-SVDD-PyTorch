@@ -88,7 +88,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         self.deconv3 = nn.ConvTranspose2d(64, 32, 5, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv3.weight, gain=nn.init.calculate_gain('leaky_relu'))
         # self.bn2d6 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
-        self.deconv4 = nn.ConvTranspose2d(32, 182, 3, bias=False, padding=2)
+        self.deconv4 = nn.ConvTranspose2d(32, 182, 4, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv4.weight, gain=nn.init.calculate_gain('leaky_relu'))
 
     # TODO
@@ -113,5 +113,5 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = self.deconv3(x)
         # x = F.interpolate(F.leaky_relu(self.bn2d6(x)), scale_factor=2)
         x = self.deconv4(x)
-        # x = torch.sigmoid(x)
+        x = torch.sigmoid(x)
         return x
