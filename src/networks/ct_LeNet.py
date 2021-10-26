@@ -100,7 +100,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = self.conv2(x)
         # x = self.pool(F.leaky_relu(self.bn2d2(x)))
         x = self.conv3(x)
-        x = self.pool(F.leaky_relu(self.bn2d3(x)))
+        # x = self.pool(F.leaky_relu(self.bn2d3(x)))
         x = x.view(x.size(0), -1)
         x = self.bn1d(self.fc1(x))
         x = x.view(x.size(0), int(self.rep_dim / (4 * 4)), 4, 4)
