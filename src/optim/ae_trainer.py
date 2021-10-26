@@ -60,7 +60,7 @@ class AETrainer(BaseTrainer):
                 outputs = ae_net(inputs)
                 print(outputs[:,:,:,0].size())
                 print(inputs.size())
-                scores = torch.sum((outputs[:,:,0,:] - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
+                scores = torch.sum((outputs.reshape(200, 182, 3) - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
                 loss.backward()
                 optimizer.step()
