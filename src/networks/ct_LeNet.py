@@ -63,7 +63,7 @@ class CT_LeNet_Autoencoder(BaseNet):
 
         # DID "rep_dim" same as above
         self.rep_dim = 64
-        # self.pool = nn.MaxPool2d(2, 2)
+        self.pool = nn.MaxPool2d(2, 2)
 
         # TODO Encoder (must match the Deep SVDD network above)
         self.conv1 = nn.Conv2d(182, 32, 3, bias=False, padding=2)
