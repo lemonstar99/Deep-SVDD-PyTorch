@@ -57,9 +57,8 @@ class AETrainer(BaseTrainer):
 
                 # Update network parameters via backpropagation: forward + backward + optimize
                 outputs = ae_net(inputs)
-                print(outputs)
-                # print(inputs.size())
-                scores = torch.sum((outputs[:,:,-1,:] - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
+                print((outputs - inputs).size())
+                scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
                 loss.backward()
                 optimizer.step()
