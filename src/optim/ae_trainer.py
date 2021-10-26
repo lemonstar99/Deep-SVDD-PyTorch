@@ -8,6 +8,7 @@ import time
 import torch
 import torch.optim as optim
 import numpy as np
+import tensorflow as tf
 
 
 class AETrainer(BaseTrainer):
@@ -57,7 +58,8 @@ class AETrainer(BaseTrainer):
 
                 # Update network parameters via backpropagation: forward + backward + optimize
                 outputs = ae_net(inputs)
-                print((outputs[:,:,:,0] - inputs).size())
+                print(outputs.size())
+                print((tf.reshape(outputs) - inputs).size())
                 scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
                 loss.backward()
