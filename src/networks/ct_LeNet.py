@@ -113,5 +113,5 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = self.deconv3(x)
         # x = F.interpolate(F.leaky_relu(self.bn2d6(x)), scale_factor=2)
         x = self.deconv4(x)
-        x = torch.sigmoid(x)
+        # x = torch.sigmoid(x)
         return x
