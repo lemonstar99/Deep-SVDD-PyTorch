@@ -60,6 +60,7 @@ class AETrainer(BaseTrainer):
                 outputs = ae_net(inputs)
                 # print(outputs.min(), outputs.max(), outputs.mean(), outputs[:,:,:,0].size())
                 # print(inputs.min(), inputs.max(), inputs.mean(), inputs.size())
+                # scores = torch.sum((outputs[:,:,:,0] - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 scores = torch.sum((outputs[:,:,:,0] - inputs) ** 2)
                 loss = torch.mean(scores)
                 loss.backward()
@@ -100,7 +101,8 @@ class AETrainer(BaseTrainer):
                 inputs, labels, idx = data
                 inputs = inputs.to(self.device)
                 outputs = ae_net(inputs)
-                scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
+                # scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
+                scores = torch.sum((outputs[:,:,:,0] - inputs) ** 2)
                 loss = torch.mean(scores)
 
                 # Save triple of (idx, label, score) in a list
