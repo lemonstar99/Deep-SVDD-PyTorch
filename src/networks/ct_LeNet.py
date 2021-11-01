@@ -156,10 +156,10 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = F.leaky_relu(x)
         """
         x = x.view(x.size(0), -1)
-        print("a", x.size())
+        print("a", x.size()) # [200, 256]
         x = self.bn1d(self.fc1(x))
-        print("a", x.size())
-        x = x.view(x.size(0), int(self.rep_dim / (4 * 4)), 4, 4)
+        print("a", x.size()) # [200, 200]
+        x = x.view(x.size(0), int(200/ (2 * 2)), 2, 2)
         print("a", x.size())
         x = F.leaky_relu(x)
         print("a", x.size())
