@@ -182,4 +182,4 @@ class CT_LeNet_Autoencoder(BaseNet):
         # x = self.deconv6(x)
         x = torch.sigmoid(x)
         # print("final: ", x.size()) # [200, 128, 3, 3]
-        return x
+        return x[:,:,:,0]

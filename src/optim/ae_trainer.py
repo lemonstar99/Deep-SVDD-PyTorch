@@ -25,7 +25,6 @@ class AETrainer(BaseTrainer):
         ae_net = ae_net.to(self.device)
 
         # Get train data loader
-        # TODO this is the current problem.
         train_loader, _ = dataset.loaders(batch_size=self.batch_size, num_workers=self.n_jobs_dataloader)
 
         # Set optimizer (Adam optimizer for now)
@@ -48,7 +47,6 @@ class AETrainer(BaseTrainer):
             loss_epoch = 0.0
             n_batches = 0
             epoch_start_time = time.time()
-            # TODO
             for data in train_loader:
                 inputs, _, _ = data
                 inputs = inputs.to(self.device)
@@ -61,7 +59,8 @@ class AETrainer(BaseTrainer):
                 # print(outputs.min(), outputs.max(), outputs.mean(), outputs[:,:,:,0].size())
                 # print(inputs.min(), inputs.max(), inputs.mean(), inputs.size())
                 # scores = torch.sum((outputs[:,:,:,0] - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
-                scores = torch.sum((outputs[:,:,:,0] - inputs) ** 2)
+                # TODO error changes here is making problem November
+                scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
                 loss.backward()
                 optimizer.step()
@@ -102,7 +101,8 @@ class AETrainer(BaseTrainer):
                 inputs = inputs.to(self.device)
                 outputs = ae_net(inputs)
                 # scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
-                scores = torch.sum((outputs[:,:,:,0] - inputs) ** 2)
+                # TODO this changes is the current problem November
+                scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
 
                 # Save triple of (idx, label, score) in a list
