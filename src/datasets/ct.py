@@ -31,11 +31,11 @@ number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
 
 class CT_Dataset(TorchvisionDataset):
 
-    def __init__(self, root: str, normal_class=0):
+    def __init__(self, root: str, normal_class=2):
 
         # super().__init__(root)
         self.root = root
-        self.n_classes = 2  # 0: normal, 1: outlier
+        self.n_classes = 20  # 0: normal, 1: outlier
         self.normal_classes = tuple([normal_class])
         self.outlier_classes = list(range(0, 20))
         self.outlier_classes.remove(normal_class)
