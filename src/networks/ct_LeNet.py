@@ -133,21 +133,21 @@ class CT_LeNet_Autoencoder(BaseNet):
     # TODO
     def forward(self, x):
         # DID add conv layers. remove unsqueeze bc dimension matches now
-        print("e", x.size()) # [200, 182, 3]
+        # print("e", x.size()) # [200, 182, 3]
         x = x.unsqueeze(3)
-        print("e", x.size()) # [200, 182, 3, 1]
+        # print("e", x.size()) # [200, 182, 3, 1]
         x = self.conv1(x)
-        print("e", x.size()) # [200, 32, 5, 3]
+        # print("e", x.size()) # [200, 32, 5, 3]
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("e", x.size()) # [200, 32, 2, 1]
+        # print("e", x.size()) # [200, 32, 2, 1]
         x = self.conv2(x)
-        print("e", x.size()) # [200, 64, 4, 3]
+        # print("e", x.size()) # [200, 64, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("e", x.size()) # [200, 64, 2, 1]
+        # print("e", x.size()) # [200, 64, 2, 1]
         x = self.conv3(x)
-        print("e", x.size()) # [200, 128, 4, 3]
+        # print("e", x.size()) # [200, 128, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        print("e", x.size()) # [200, 128, 2, 1]
+        # print("e", x.size()) # [200, 128, 2, 1]
         # x = self.conv4(x)
         # x = self.conv5(x)
         # x = self.conv6(x)
