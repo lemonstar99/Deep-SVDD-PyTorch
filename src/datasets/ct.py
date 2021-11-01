@@ -124,7 +124,7 @@ def get_output_data():
     return np_utils.to_categorical(y, number_of_character_classes)
 
 
-class MyCT(Dataset):
+class MyCT(CT_Dataset):
     # copy from mnist
     def __init__(self, *args, **kwargs):
         super(MyCT, self).__init__(*args, **kwargs)
