@@ -117,6 +117,9 @@ class AETrainer(BaseTrainer):
         labels = np.array(labels)
         scores = np.array(scores)
 
+        print("labels: ", labels.shape())
+        print("scores: ", scores.shape())
+
         # TODO error
         auc = roc_auc_score(labels.reshape(1, -1), scores.reshape(1, -1))
         logger.info('Test set AUC: {:.2f}%'.format(100. * auc))
