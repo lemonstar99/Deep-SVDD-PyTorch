@@ -50,7 +50,7 @@ class CT_LeNet(BaseNet):
   
     # TODO forward layers will be same as above
     def forward(self, x):
-        x = np.expand_dims(x, 1)
+        # x = np.expand_dims(x, 1)
         x = x.unsqueeze(3)
         x = self.conv1(x)
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
@@ -133,13 +133,21 @@ class CT_LeNet_Autoencoder(BaseNet):
     # TODO
     def forward(self, x):
         # DID add conv layers. remove unsqueeze bc dimension matches now
+        print("e", x)
         x = x.unsqueeze(3)
+        print("e", x)
         x = self.conv1(x)
+        print("e", x)
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
+        print("e", x)
         x = self.conv2(x)
+        print("e", x)
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
+        print("e", x)
         x = self.conv3(x)
+        print("e", x)
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
+        print("e", x)
         # x = self.conv4(x)
         # x = self.conv5(x)
         # x = self.conv6(x)
@@ -148,18 +156,30 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = F.leaky_relu(x)
         """
         x = x.view(x.size(0), -1)
+        print("a", x)
         x = self.bn1d(self.fc1(x))
+        print("a", x)
         x = x.view(x.size(0), int(self.rep_dim / (4 * 4)), 4, 4)
+        print("a", x)
         x = F.leaky_relu(x)
+        print("a", x)
        
         x = self.deconv1(x)
+        print("d", x)
         x = F.interpolate(F.leaky_relu(self.bn2d4(x)), scale_factor=2)
+        print("d", x)
         x = self.deconv2(x)
+        print("d", x)
         x = F.interpolate(F.leaky_relu(self.bn2d5(x)), scale_factor=2)
+        print("d", x)
         x = self.deconv3(x)
+        print("d", x)
         x = F.interpolate(F.leaky_relu(self.bn2d6(x)), scale_factor=2)
+        print("d", x)
         x = self.deconv4(x)
+        print("d", x)
         # x = self.deconv5(x)
         # x = self.deconv6(x)
         x = torch.sigmoid(x)
+        print("final: ", x)
         return x
