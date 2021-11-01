@@ -33,8 +33,8 @@ class CT_Dataset(TorchvisionDataset):
 
     def __init__(self, root: str, normal_class=2):
 
-        # super().__init__(root)
-        self.root = root
+        super().__init__(root)
+        # self.root = root
         self.n_classes = 2  # 0: normal, 1: outlier
         self.normal_classes = tuple([normal_class])
         self.outlier_classes = list(range(0, 20))
@@ -49,14 +49,31 @@ class CT_Dataset(TorchvisionDataset):
         random.shuffle(x_y)
         x, y = zip(*x_y)
 
-        # train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
-        # test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
-
+        """
         train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
-        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.arange(0, 285)))        
-        
+        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.arange(0, 285)))   
+
         self.train_set = train_set
         self.test_set = test_set
+        """
+
+        transform = transforms.Compose([transforms.ToTensor(),
+                                        transforms.Lambda(lambda x: global_contrast_normalization(x, scale='l1'))])
+        
+        target_transform = transforms.Lambda(lambda x: int(x in self.outlier_classes))
+
+        train_set = MyCT(root=self.root, train=True, download=True,
+                            transform=transform, target_transform=target_transform)
+        
+        train_idx_normal = get_target_label_idx(train_set.train_labels.clone().data.cpu().numpy(), self.normal_classes)
+        self.train_set = Subset(train_set, train_idx_normal)
+            
+        self.test_set = MyCT(root=self.root, train=False, download=True,
+                                transform=transform, target_transform=target_transform)
+        
+
+        # train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
+        # test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
 
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
@@ -102,7 +119,26 @@ def get_output_data():
 
 
 class MyCT(Dataset):
+    # copy from mnist
+    def __init__(self, *args, **kwargs):
+        super(MyCT, self).__init__(*args, **kwargs)
+    
+    def __getitem__(self, index):
+        if self.train:
+            x, y = self.train_data[index], self.train_labels[index]
+        else:
+            x, y = self.test_data[index], self.test_labels[index]
+        
+        # img = Image.fromarray(img.numpy(), mode='L')
 
+        if self.transform is not None:
+            x = self.transform(x)
+
+        if self.target_transform is not None:
+            y = self.target_transform(y)
+
+        return x, y, index
+    """
     def __init__(self, x_values, y_values, idx, train=True):
         self.x_values = x_values
         self.y_values = y_values
@@ -118,4 +154,5 @@ class MyCT(Dataset):
             y = y_values[:idx]
         
         return X, y, idx
+    """
 
