@@ -57,6 +57,12 @@ class CT_Dataset(TorchvisionDataset):
         self.test_set = test_set
         """
 
+        train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
+        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.arange(0, 285)))
+
+        self.train_set = train_set
+        self.test_set = test_set   
+
         transform = transforms.Compose([transforms.ToTensor(),
                                         transforms.Lambda(lambda x: global_contrast_normalization(x, scale='l1'))])
         
