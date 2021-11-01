@@ -55,7 +55,7 @@ class DeepSVDDTrainer(BaseTrainer):
         # Initialize hypersphere center c (if c not loaded)
         if self.c is None:
             logger.info('Initializing center c...')
-            self.c = self.init_center_c(train_loader, net)
+            self.c = self.init_center_c(train_loader, net) # TODO
             logger.info('Center c initialized.')
 
         # Training
@@ -164,12 +164,11 @@ class DeepSVDDTrainer(BaseTrainer):
         with torch.no_grad():
             for data in train_loader:
                 # get the inputs of the batch
-                # DID removed index
                 inputs, _, _ = data
                 inputs = inputs.to(self.device)
                 outputs = net(inputs)
                 n_samples += outputs.shape[0]
-                c += torch.sum(outputs, dim=0)
+                c += torch.sum(outputs, dim=0) # TODO
 
         c /= n_samples
 
