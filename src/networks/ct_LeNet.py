@@ -110,6 +110,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         self.conv6 = nn.Conv1d(256, 256, kernel_size=1, stride=2, bias=False)
         nn.init.xavier_uniform_(self.conv6.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.fc1 = nn.Conv1d(256, 64, kernel_size=1, stride=1, bias=False)
+        self.bn1d = nn.BatchNorm1d(self.rep_dim, eps=1e-04, affine=False)
 
         # TODO Decoder
         # self.deconv1 = nn.ConvTranspose2d(4, 128, 5, bias=False, padding=2)
