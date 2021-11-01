@@ -79,7 +79,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         self.conv1 = nn.Conv2d(182, 32, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.conv1.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
-        self.conv2 = nn.Conv2d(32, 64, 5, bias=False, padding=2)
+        self.conv2 = nn.Conv2d(32, 64, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.conv2.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d2 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
         self.conv3 = nn.Conv2d(64, 128, 5, bias=False, padding=2)
@@ -133,15 +133,15 @@ class CT_LeNet_Autoencoder(BaseNet):
     # TODO
     def forward(self, x):
         # DID add conv layers. remove unsqueeze bc dimension matches now
-        print("e", x.size())
+        print("e", x.size()) # [200, 182, 3]
         x = x.unsqueeze(3)
-        print("e", x.size())
+        print("e", x.size()) # [200, 182, 3, 1]
         x = self.conv1(x)
-        print("e", x.size())
+        print("e", x.size()) # [200, 32, 5, 3]
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("e", x.size())
+        print("e", x.size()) # [200, 32, 2, 1]
         x = self.conv2(x)
-        print("e", x.size())
+        print("e", x.size()) # [200, 64, 2, 1]
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
         print("e", x.size())
         x = self.conv3(x)
