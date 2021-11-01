@@ -118,7 +118,7 @@ class AETrainer(BaseTrainer):
         scores = np.array(scores)
 
         # TODO error
-        auc = roc_auc_score(labels.reshape(-1, 1), scores)
+        auc = roc_auc_score(labels.reshape(1, -1), scores)
         logger.info('Test set AUC: {:.2f}%'.format(100. * auc))
 
         test_time = time.time() - start_time
