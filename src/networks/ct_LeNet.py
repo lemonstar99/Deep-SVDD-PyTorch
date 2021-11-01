@@ -73,7 +73,7 @@ class CT_LeNet_Autoencoder(BaseNet):
 
         # DID "rep_dim" same as above
         self.rep_dim = 64
-        self.pool = nn.MaxPool2d(2, 2)
+        self.pool = nn.MaxPool2d(3, 3)
 
         # DID works without batch normalization
         self.conv1 = nn.Conv2d(182, 32, 3, bias=False, padding=2)
