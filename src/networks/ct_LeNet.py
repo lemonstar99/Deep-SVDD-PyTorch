@@ -133,17 +133,17 @@ class CT_LeNet_Autoencoder(BaseNet):
     # TODO
     def forward(self, x):
         # DID add conv layers. remove unsqueeze bc dimension matches now
-        print("e", x.size)
+        print("e", x.size())
         x = x.unsqueeze(3)
-        print("e", x.size)
+        print("e", x.size())
         x = self.conv1(x)
-        print("e", x.size)
+        print("e", x.size())
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("e", x.size)
+        print("e", x.size())
         x = self.conv2(x)
-        print("e", x.size)
+        print("e", x.size())
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("e", x.size)
+        print("e", x.size())
         x = self.conv3(x)
         print("e", x.size)
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
