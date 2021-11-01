@@ -141,13 +141,13 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
         print("e", x.size()) # [200, 32, 2, 1]
         x = self.conv2(x)
-        print("e", x.size()) # [200, 64, 2, 1]
+        print("e", x.size()) # [200, 64, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("e", x.size())
+        print("e", x.size()) # [200, 64, 2, 1]
         x = self.conv3(x)
-        print("e", x.size())
+        print("e", x.size()) # [200, 128, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        print("e", x.size())
+        print("e", x.size()) # [200, 128, 2, 1]
         # x = self.conv4(x)
         # x = self.conv5(x)
         # x = self.conv6(x)
@@ -155,8 +155,8 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = self.bn1d(self.fc1(x))
         x = F.leaky_relu(x)
         """
-        x = x.view(x.size(0), -1)
-        print("a", x.size())
+        # x = x.view(x.size(0), -1)
+        # print("a", x.size())
         x = self.bn1d(self.fc1(x))
         print("a", x.size())
         x = x.view(x.size(0), int(self.rep_dim / (4 * 4)), 4, 4)
