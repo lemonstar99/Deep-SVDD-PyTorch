@@ -105,10 +105,10 @@ class CT_LeNet_Autoencoder(BaseNet):
         # self.bn1d = nn.BatchNorm1d(self.rep_dim, eps=1e-04, affine=False)
 
         # TODO Decoder
-        self.deconv1 = nn.ConvTranspose2d(int(200/ (2 * 2)), 128, 5, bias=False, padding=2)
+        self.deconv1 = nn.ConvTranspose2d(int(200/ (2 * 2)), 128, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv1.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d4 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
-        self.deconv2 = nn.ConvTranspose2d(128, 64, 5, bias=False, padding=2)
+        self.deconv2 = nn.ConvTranspose2d(128, 64, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv2.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d5 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
         self.deconv3 = nn.ConvTranspose2d(64, 32, 5, bias=False, padding=2)
@@ -156,30 +156,30 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = F.leaky_relu(x)
         """
         x = x.view(x.size(0), -1)
-        print("a", x.size()) # [200, 256]
+        # print("a", x.size()) # [200, 256]
         x = self.bn1d(self.fc1(x))
-        print("a", x.size()) # [200, 200]
+        # print("a", x.size()) # [200, 200]
         x = x.view(x.size(0), int(200/ (2 * 2)), 2, 2)
-        print("a", x.size()) # [200, 50, 2, 2]
+        # print("a", x.size()) # [200, 50, 2, 2]
         x = F.leaky_relu(x)
-        print("a", x.size()) # [200, 50, 2, 2]
+        # print("a", x.size()) # [200, 50, 2, 2]
        
         x = self.deconv1(x)
-        print("d", x.size())
+        print("d", x.size()) # [200, 128, 2, 2]
         x = F.interpolate(F.leaky_relu(self.bn2d4(x)), scale_factor=2)
-        print("d", x.size())
+        print("d", x.size()) # [200, 128, 4, 4]
         x = self.deconv2(x)
-        print("d", x.size())
+        print("d", x.size()) # [200, 64, 4, 4]
         x = F.interpolate(F.leaky_relu(self.bn2d5(x)), scale_factor=2)
-        print("d", x.size())
+        print("d", x.size()) # [200, 64, 8, 8]
         x = self.deconv3(x)
-        print("d", x.size())
+        print("d", x.size()) # [200, 32, 8, 8]
         x = F.interpolate(F.leaky_relu(self.bn2d6(x)), scale_factor=2)
-        print("d", x.size())
+        print("d", x.size()) # [200, 32, 16 , 16]
         x = self.deconv4(x)
-        print("d", x.size())
+        print("d", x.size()) # [200, 128, 15, 15]
         # x = self.deconv5(x)
         # x = self.deconv6(x)
         x = torch.sigmoid(x)
-        print("final: ", x.size())
+        print("final: ", x.size()) # [200, 128, 15, 15]
         return x
