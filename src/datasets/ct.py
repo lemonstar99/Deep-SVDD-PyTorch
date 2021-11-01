@@ -126,9 +126,12 @@ def get_output_data():
 
 class MyCT(Dataset):
     # copy from mnist
-    def __init__(self, root, train=False, transform=True, target_transform=True):
-        super(MyCT, self).__init__(train=False, transform=True, target_transform=True)
-    
+    def __init__(self, root, train, transform, target_transform):
+        self.root = root
+        self.train = train
+        self.transform = transform
+        self.target_transform = target_transform
+
     def __getitem__(self, index):
         if self.train:
             x, y = self.train_data[index], self.train_labels[index]
