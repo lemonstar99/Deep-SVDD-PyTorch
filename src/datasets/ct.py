@@ -68,13 +68,13 @@ class CT_Dataset(TorchvisionDataset):
         
         target_transform = transforms.Lambda(lambda x: int(x in self.outlier_classes))
 
-        train_set = MyCT(root=self.root, train=True,
+        train_set = MyCT(root=self.root, x_values=x, y_values=y, train=True,
                             transform=transform, target_transform=target_transform)
         
-        train_idx_normal = get_target_label_idx(y.clone().data.cpu().numpy(), self.normal_classes)
+        train_idx_normal = get_target_label_idx(train_set.y.clone().data.cpu().numpy(), self.normal_classes)
         self.train_set = Subset(train_set, train_idx_normal)
             
-        self.test_set = MyCT(root=self.root, train=False, download=True,
+        self.test_set = MyCT(root=self.root, x_values=x, y_values=y, train=False, download=True,
                                 transform=transform, target_transform=target_transform)
         
 
@@ -128,15 +128,21 @@ class MyCT(Dataset):
     # copy from mnist
     def __init__(self, root, train, transform, target_transform):
         self.root = root
+        self.x_values = x_values
+        self.y_values = y_values
         self.train = train
         self.transform = transform
         self.target_transform = target_transform
 
     def __getitem__(self, index):
         if self.train:
-            x, y = self.train_data[index], self.train_labels[index]
+            # x, y = self.train_data[index], self.train_labels[index]
+            x = x_values[idx:]
+            y = y_values[idx:]
         else:
-            x, y = self.test_data[index], self.test_labels[index]
+            # x, y = self.test_data[index], self.test_labels[index]
+            x = x_values[:idx]
+            y = y_values[:idx]
         
         # img = Image.fromarray(img.numpy(), mode='L')
 
