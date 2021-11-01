@@ -35,7 +35,7 @@ class CT_Dataset(TorchvisionDataset):
 
         # super().__init__(root)
         self.root = root
-        self.n_classes = 20  # 0: normal, 1: outlier
+        self.n_classes = 2  # 0: normal, 1: outlier
         self.normal_classes = tuple([normal_class])
         self.outlier_classes = list(range(0, 20))
         self.outlier_classes.remove(normal_class)
