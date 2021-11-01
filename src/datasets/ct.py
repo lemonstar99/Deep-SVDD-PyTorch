@@ -126,7 +126,7 @@ def get_output_data():
 
 class MyCT(Dataset):
     # copy from mnist
-    def __init__(self, root, train, transform, target_transform):
+    def __init__(self, root, x_values, y_values, train, transform, target_transform):
         self.root = root
         self.x_values = x_values
         self.y_values = y_values
