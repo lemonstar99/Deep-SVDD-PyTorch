@@ -94,7 +94,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         nn.init.xavier_uniform_(self.conv3.weight, gain=nn.init.calculate_gain('leaky_relu'))
         # self.bn2d3 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
         self.fc1 = nn.Linear(1920, self.rep_dim, bias=False)
-        # self.bn1d = nn.BatchNorm1d(self.rep_dim, eps=1e-04, affine=False)
+        self.bn1d = nn.BatchNorm1d(self.rep_dim, eps=1e-04, affine=False)
 
         # self.relu = nn.ReLU()
         # self.conv1 = nn.Conv1d(182, 32, kernel_size=1, stride=2, bias=False)
