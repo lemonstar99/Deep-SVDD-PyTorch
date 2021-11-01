@@ -68,7 +68,7 @@ class CT_Dataset(TorchvisionDataset):
         
         target_transform = transforms.Lambda(lambda x: int(x in self.outlier_classes))
 
-        train_set = MyCT(root=self.root, train=True, download=True,
+        train_set = MyCT(root=self.root, train=True,
                             transform=transform, target_transform=target_transform)
         
         train_idx_normal = get_target_label_idx(train_set.train_labels.clone().data.cpu().numpy(), self.normal_classes)
