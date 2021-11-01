@@ -165,21 +165,21 @@ class CT_LeNet_Autoencoder(BaseNet):
         # print("a", x.size()) # [200, 50, 2, 2]
        
         x = self.deconv1(x)
-        print("d", x.size()) # [200, 128, 2, 2]
+        # print("d", x.size()) # [200, 128, 2, 2]
         x = F.interpolate(F.leaky_relu(self.bn2d4(x)), scale_factor=2)
-        print("d", x.size()) # [200, 128, 4, 4]
+        # print("d", x.size()) # [200, 128, 4, 4]
         x = self.deconv2(x)
-        print("d", x.size()) # [200, 64, 4, 4]
+        # print("d", x.size()) # [200, 64, 2, 2]
         x = F.interpolate(F.leaky_relu(self.bn2d5(x)), scale_factor=2)
-        print("d", x.size()) # [200, 64, 8, 8]
+        # print("d", x.size()) # [200, 64, 4, 4]
         x = self.deconv3(x)
-        print("d", x.size()) # [200, 32, 8, 8]
+        # print("d", x.size()) # [200, 32, 2, 2]
         x = F.interpolate(F.leaky_relu(self.bn2d6(x)), scale_factor=2)
-        print("d", x.size()) # [200, 32, 16 , 16]
+        # print("d", x.size()) # [200, 32, 4, 4]
         x = self.deconv4(x)
-        print("d", x.size()) # [200, 128, 15, 15]
+        # print("d", x.size()) # [200, 128, 3, 3]
         # x = self.deconv5(x)
         # x = self.deconv6(x)
         x = torch.sigmoid(x)
-        print("final: ", x.size()) # [200, 128, 15, 15]
+        # print("final: ", x.size()) # [200, 128, 3, 3]
         return x
