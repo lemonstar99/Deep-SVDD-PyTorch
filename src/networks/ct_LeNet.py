@@ -17,7 +17,7 @@ class CT_LeNet(BaseNet):
         self.rep_dim = 64
         self.pool = nn.MaxPool2d(2, 2)
 
-        # TODO make it similar to NeuTraL AD
+        # make it similar to NeuTraL AD
         # find the number of conv layers in CT
         # 1d convolution layers with ReLU activation
         # no batch normalization is applied
@@ -47,7 +47,6 @@ class CT_LeNet(BaseNet):
         # nn.init.xavier_uniform_(self.conv6.weight, gain=nn.init.calculate_gain('leaky_relu'))
         # self.fc1 = nn.Conv1d(256, 64, kernel_size=1, stride=1, bias=False)
   
-    # TODO forward layers will be same as above
     def forward(self, x):
         # x = np.expand_dims(x, 1)
         # print("0: ", x.size()) # [200, 182, 3]
@@ -94,8 +93,8 @@ class CT_LeNet_Autoencoder(BaseNet):
         self.conv3 = nn.Conv2d(64, 128, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.conv3.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d3 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
-        self.fc1 = nn.Linear(256, 200, bias=False)
-        self.bn1d = nn.BatchNorm1d(200, eps=1e-04, affine=False)
+        self.fc1 = nn.Linear(256, 64, bias=False)
+        self.bn1d = nn.BatchNorm1d(64, eps=1e-04, affine=False)
 
         # self.relu = nn.ReLU()
         # self.conv1 = nn.Conv1d(182, 32, kernel_size=1, stride=2, bias=False)
@@ -113,7 +112,7 @@ class CT_LeNet_Autoencoder(BaseNet):
         # self.fc1 = nn.Conv1d(256, 64, kernel_size=1, stride=1, bias=False)
         # self.bn1d = nn.BatchNorm1d(self.rep_dim, eps=1e-04, affine=False)
 
-        # TODO Decoder
+        # Decoder
         self.deconv1 = nn.ConvTranspose2d(int(200/ (2 * 2)), 128, 5, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv1.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d4 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
@@ -139,7 +138,6 @@ class CT_LeNet_Autoencoder(BaseNet):
         # self.deconv6 = nn.ConvTranspose1d(32, 182, 1, stride=2, bias=False)
         # nn.init.xavier_uniform_(self.deconv6.weight, gain=nn.init.calculate_gain('leaky_relu'))
 
-    # TODO
     def forward(self, x):
         # DID add conv layers. remove unsqueeze bc dimension matches now
         # print("e", x.size()) # [200, 182, 3]
@@ -154,9 +152,9 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
         # print("e", x.size()) # [200, 64, 2, 1]
         x = self.conv3(x)
-        # print("e", x.size()) # [200, 128, 4, 3]
+        print("e", x.size()) # [200, 128, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        # print("e", x.size()) # [200, 128, 2, 1]
+        print("e", x.size()) # [200, 128, 2, 1]
         # x = self.conv4(x)
         # x = self.conv5(x)
         # x = self.conv6(x)
@@ -165,13 +163,13 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = F.leaky_relu(x)
         """
         x = x.view(x.size(0), -1)
-        # print("a", x.size()) # [200, 256]
+        print("a", x.size()) # [200, 256]
         x = self.bn1d(self.fc1(x))
-        # print("a", x.size()) # [200, 200]
+        print("a", x.size()) # [200, 200]
         x = x.view(x.size(0), int(200/ (2 * 2)), 2, 2)
-        # print("a", x.size()) # [200, 50, 2, 2]
+        print("a", x.size()) # [200, 50, 2, 2]
         x = F.leaky_relu(x)
-        # print("a", x.size()) # [200, 50, 2, 2]
+        print("a", x.size()) # [200, 50, 2, 2]
        
         x = self.deconv1(x)
         # print("d", x.size()) # [200, 128, 2, 2]
