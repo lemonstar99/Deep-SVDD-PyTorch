@@ -71,7 +71,7 @@ class CT_Dataset(TorchvisionDataset):
         train_set = MyCT(root=self.root, x_values=x, y_values=y, train=True,
                             transform=transform, target_transform=target_transform)
         
-        train_idx_normal = get_target_label_idx(train_set.y_values.clone().data.cpu().numpy(), self.normal_classes)
+        train_idx_normal = get_target_label_idx(y, self.normal_classes)
         self.train_set = Subset(train_set, train_idx_normal)
             
         self.test_set = MyCT(root=self.root, x_values=x, y_values=y, train=False, download=True,
