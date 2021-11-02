@@ -42,6 +42,14 @@ class CT_Dataset(TorchvisionDataset):
         
         x = get_input_data()
         y = get_output_data()
+        print("this is y: ", y)
+        for i in range(0,2858):
+            if y[i][normal_class] == 1:
+                y_new.append(0)
+            else:
+                y_new.append(1)
+        
+        print("this is new y: ", y_new)
 
         test_count = int(0.1 * len(x))
 
