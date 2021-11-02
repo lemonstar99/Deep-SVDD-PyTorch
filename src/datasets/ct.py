@@ -77,8 +77,8 @@ class CT_Dataset(TorchvisionDataset):
         self.test_set = MyCT(root=self.root, idx=test_count, x_values=x, y_values=y, train=False,
                                 transform=transform, target_transform=target_transform)
         
-        print("train set: ", train_set.shape())
-        print("test set: ", test_set.shape())
+        print("train set: ", train_set.size())
+        print("test set: ", test_set.size())
 
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
