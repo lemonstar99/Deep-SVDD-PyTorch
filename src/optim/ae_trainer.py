@@ -59,7 +59,6 @@ class AETrainer(BaseTrainer):
                 # print(outputs.min(), outputs.max(), outputs.mean(), outputs[:,:,:,0].size())
                 # print(inputs.min(), inputs.max(), inputs.mean(), inputs.size())
                 # scores = torch.sum((outputs[:,:,:,0] - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
-                # TODO error changes here is making problem November
                 scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
                 loss.backward()
@@ -67,6 +66,7 @@ class AETrainer(BaseTrainer):
 
                 loss_epoch += loss.item()
                 n_batches += 1
+                # TODO error changes here is making problem November n_batches is zero.
 
             # log epoch statistics
             epoch_train_time = time.time() - epoch_start_time

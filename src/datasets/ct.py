@@ -77,20 +77,12 @@ class CT_Dataset(TorchvisionDataset):
         self.test_set = MyCT(root=self.root, idx=test_count, x_values=x, y_values=y, train=False,
                                 transform=transform, target_transform=target_transform)
         
-
-        # train_set = MyCT(x_values=x, y_values=y, idx=test_count, train=True)
-        # test_set = MyCT(x_values=x, y_values=y, idx=test_count, train=False)
+        print("train set: ", train_set.shape())
+        print("test set: ", test_set.shape())
 
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
 
-        # self.X_train = torch.tensor(x_train, dtype=torch.float32)
-        # self.y_train = torch.tensor(y_train)
-
-        # train_idx_normal = get_target_label_idx(train_set.train_labels, self.normal_classes)
-        # self.train_set = Subset(train_set, train_idx_normal)
-
-        # self.test_set = MyCT(root=self.root)
     
 def get_input_data():
     x = []
