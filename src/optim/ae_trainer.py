@@ -66,7 +66,6 @@ class AETrainer(BaseTrainer):
 
                 loss_epoch += loss.item()
                 n_batches += 1
-                # TODO error changes here is making problem November n_batches is zero.
 
             # log epoch statistics
             epoch_train_time = time.time() - epoch_start_time
@@ -101,10 +100,9 @@ class AETrainer(BaseTrainer):
                 inputs = inputs.to(self.device)
                 outputs = ae_net(inputs)
                 # scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
-                # TODO this changes is the current problem November
                 scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
-
+                print("outputs: ", outputs, " score: ", scores)
                 # Save triple of (idx, label, score) in a list
                 idx_label_score += list(zip(idx.cpu().data.numpy().tolist(),
                                             labels.cpu().data.numpy().tolist(),
