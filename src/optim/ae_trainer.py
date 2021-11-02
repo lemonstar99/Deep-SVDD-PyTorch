@@ -56,15 +56,12 @@ class AETrainer(BaseTrainer):
 
                 # Update network parameters via backpropagation: forward + backward + optimize
                 outputs = ae_net(inputs)
-                # print(outputs.min(), outputs.max(), outputs.mean(), outputs[:,:,:,0].size())
-                # print(inputs.min(), inputs.max(), inputs.mean(), inputs.size())
                 # scores = torch.sum((outputs[:,:,:,0] - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
                 loss.backward()
                 optimizer.step()
-                print("outputs: ", outputs.shape)
-                print("score: ", scores.shape)
+                
                 loss_epoch += loss.item()
                 n_batches += 1
 
@@ -103,8 +100,7 @@ class AETrainer(BaseTrainer):
                 # scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
-                print("outputs: ", outputs.shape)
-                print("score: ", scores.shape)
+                
                 # Save triple of (idx, label, score) in a list
                 idx_label_score += list(zip(idx.cpu().data.numpy().tolist(),
                                             labels.cpu().data.numpy().tolist(),
@@ -119,13 +115,9 @@ class AETrainer(BaseTrainer):
         labels = np.array(labels)
         scores = np.array(scores)
 
-        print("labels: ", labels.shape)
-        print("scores: ", scores.shape)
-        # print(labels)
-
         # TODO error
         # auc = roc_auc_score(labels.reshape(1, -1), scores.reshape(1, -1))
-        auc = roc_auc_score(labels[0], scores)
+        auc = roc_auc_score(labels, scores)
         logger.info('Test set AUC: {:.2f}%'.format(100. * auc))
 
         test_time = time.time() - start_time
