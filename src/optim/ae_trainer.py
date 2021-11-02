@@ -114,6 +114,8 @@ class AETrainer(BaseTrainer):
         _, labels, scores = zip(*idx_label_score)
         labels = np.array(labels)
         scores = np.array(scores)
+        print("this is labels: ", labels)
+        print("this is scores: ", scores)
 
         # TODO error
         # auc = roc_auc_score(labels.reshape(1, -1), scores.reshape(1, -1))
