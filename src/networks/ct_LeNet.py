@@ -50,28 +50,28 @@ class CT_LeNet(BaseNet):
     # TODO forward layers will be same as above
     def forward(self, x):
         # x = np.expand_dims(x, 1)
-        print("0: ", x.size()) # [200, 182, 3]
+        # print("0: ", x.size()) # [200, 182, 3]
         x = x.unsqueeze(3)
-        print("1: ", x.size()) # [200, 182, 3, 1]
+        # print("1: ", x.size()) # [200, 182, 3, 1]
         x = self.conv1(x)
-        print("2: ", x.size()) # [200, 32, 5, 3]
+        # print("2: ", x.size()) # [200, 32, 5, 3]
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("3: ", x.size()) # [200, 32, 2, 1]
+        # print("3: ", x.size()) # [200, 32, 2, 1]
         x = self.conv2(x)
-        print("4: ", x.size()) # [200, 64, 4, 3]
+        # print("4: ", x.size()) # [200, 64, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("5: ", x.size()) # [200, 64, 2, 1]
+        # print("5: ", x.size()) # [200, 64, 2, 1]
         x = self.conv3(x)
-        print("6: ", x.size()) # [200, 128, 4, 3]
+        # print("6: ", x.size()) # [200, 128, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        print("7: ", x.size()) # [200, 128, 2, 1]
+        # print("7: ", x.size()) # [200, 128, 2, 1]
         x = x.view(x.size(0), -1)
-        print("8: ", x.size())
+        # print("8: ", x.size()) # [200, 256]
         # x = self.conv4(x)
         # x = self.conv5(x)
         # x = self.conv6(x)
         x = self.fc1(x)
-        print("9: ", x.size())
+        # print("9: ", x.size()) # [200, 200]
         return x
 
 
