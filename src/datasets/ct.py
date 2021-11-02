@@ -58,7 +58,7 @@ class CT_Dataset(TorchvisionDataset):
 
         test_count = int(0.1 * len(x))
 
-        x_y = list(zip(X, y_total))
+        x_y = list(zip(x, y_total))
         random.shuffle(x_y)
         x, y_total = zip(*x_y)
 
