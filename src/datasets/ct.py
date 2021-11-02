@@ -60,7 +60,10 @@ class CT_Dataset(TorchvisionDataset):
         y_test_transformed = target_transform(y_test_new)
         x_test_transformed = global_contrast_normalization(torch.Tensor(np.array(x[:test_count])))
 
-        train_set = TensorDataset(torch.Tensor(np.array(x_train_transformed)), torch.Tensor(np.array(y_train_transformed)), torch.Tensor(np.arange(285, 2858)))
+        print(x_test_transformed.type())
+        print(y_test_transformed.type())
+
+        train_set = TensorDataset(x_train_transformed, y_train_transformed, torch.Tensor(np.arange(285, 2858)))
         test_set = TensorDataset(x_test_transformed, y_test_transformed, torch.Tensor(np.arange(0, 285)))   
 
         self.train_set = train_set
