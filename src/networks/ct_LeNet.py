@@ -63,7 +63,7 @@ class CT_LeNet(BaseNet):
         # x = self.conv5(x)
         # x = self.conv6(x)
         x = self.fc1(x)
-        return x
+        return x[:,:,:,0]
 
 
 class CT_LeNet_Autoencoder(BaseNet):
