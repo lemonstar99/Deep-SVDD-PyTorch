@@ -44,7 +44,7 @@ class CT_Dataset(TorchvisionDataset):
         y = get_output_data()
 
         test_count = int(0.1 * len(x))
-
+        train_set = TensorDataset(torch.Tensor(np.array(x[:50])), torch.Tensor(np.array(y[:50])), torch.Tensor(np.arange(0, 50)))
         x_y = list(zip(x, y))
         random.shuffle(x_y)
         x, y = zip(*x_y)
@@ -68,8 +68,7 @@ class CT_Dataset(TorchvisionDataset):
         
         """
 
-        train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
-        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.arange(0, 285)))
+        test_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
 
         self.train_set = train_set
         self.test_set = test_set   
