@@ -63,8 +63,8 @@ class AETrainer(BaseTrainer):
                 loss = torch.mean(scores)
                 loss.backward()
                 optimizer.step()
-                print("outputs: ", outputs)
-                print("score: ", scores)
+                print("outputs: ", outputs.shape)
+                print("score: ", scores.shape)
                 loss_epoch += loss.item()
                 n_batches += 1
 
