@@ -68,6 +68,9 @@ class CT_Dataset(TorchvisionDataset):
         random.shuffle(x_y)
         x_test, y_total = zip(*x_y)
 
+        print("count: ", cnt)
+        print ("y_train: ", y_train)
+        print ("y_total: ", y_total)
         """
 
         # y_train_new = get_target_label_idx(np.array(y[test_count:]), self.normal_classes)
