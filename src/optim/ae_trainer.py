@@ -103,8 +103,8 @@ class AETrainer(BaseTrainer):
                 # scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
-                print("outputs: ", outputs)
-                print("score: ", scores)
+                print("outputs: ", outputs.shape)
+                print("score: ", scores.shape)
                 # Save triple of (idx, label, score) in a list
                 idx_label_score += list(zip(idx.cpu().data.numpy().tolist(),
                                             labels.cpu().data.numpy().tolist(),
@@ -125,7 +125,7 @@ class AETrainer(BaseTrainer):
 
         # TODO error
         # auc = roc_auc_score(labels.reshape(1, -1), scores.reshape(1, -1))
-        auc = roc_auc_score(labels, scores)
+        auc = roc_auc_score(labels[0], scores)
         logger.info('Test set AUC: {:.2f}%'.format(100. * auc))
 
         test_time = time.time() - start_time
