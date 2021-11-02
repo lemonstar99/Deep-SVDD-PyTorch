@@ -49,16 +49,12 @@ class CT_Dataset(TorchvisionDataset):
         random.shuffle(x_y)
         x, y = zip(*x_y)
 
-        transform = transforms.Compose([transforms.ToTensor(),
-                                        transforms.Lambda(lambda x: global_contrast_normalization(x, scale='l1')),
-                                        ])
-
         target_transform = transforms.Lambda(lambda x: int(x in self.outlier_classes))
 
         y_new = get_target_label_idx(y, self.normal_classes)
         
         y_transformed = target_transform(y_new)
-        x_transformed = transform(x)
+        x_transformed = global_contrast_normalization(torch.Tensor(np.array(x)))
 
         train_set = TensorDataset(torch.Tensor(np.array(x_transformed[test_count:])), torch.Tensor(np.array(y_transformed[test_count:])), torch.Tensor(np.arange(285, 2858)))
         test_set = TensorDataset(torch.Tensor(np.array(x_transformed[:test_count])), torch.Tensor(np.array(y_transformed[:test_count])), torch.Tensor(np.arange(0, 285)))   
