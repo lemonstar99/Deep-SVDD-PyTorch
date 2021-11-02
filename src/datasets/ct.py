@@ -57,24 +57,24 @@ class CT_Dataset(TorchvisionDataset):
         self.test_set = test_set
         """
 
-        train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
-        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.arange(0, 285)))
+        # train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
+        # test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.arange(0, 285)))
 
-        self.train_set = train_set
-        self.test_set = test_set   
+        # self.train_set = train_set
+        # self.test_set = test_set   
 
         transform = transforms.Compose([transforms.ToTensor(),
                                         transforms.Lambda(lambda x: global_contrast_normalization(x, scale='l1'))])
         
         target_transform = transforms.Lambda(lambda x: int(x in self.outlier_classes))
 
-        train_set = MyCT(root=self.root, x_values=x, y_values=y, train=True,
+        train_set = MyCT(root=self.root, idx=test_count, x_values=x, y_values=y, train=True,
                             transform=transform, target_transform=target_transform)
         
         train_idx_normal = get_target_label_idx(y, self.normal_classes)
         self.train_set = Subset(train_set, train_idx_normal)
             
-        self.test_set = MyCT(root=self.root, x_values=x, y_values=y, train=False,
+        self.test_set = MyCT(root=self.root, idx=test_count, x_values=x, y_values=y, train=False,
                                 transform=transform, target_transform=target_transform)
         
 
@@ -126,8 +126,9 @@ def get_output_data():
 
 class MyCT(Dataset):
     # copy from mnist
-    def __init__(self, root, x_values, y_values, train, transform, target_transform):
+    def __init__(self, root, idx, x_values, y_values, train, transform, target_transform):
         self.root = root
+        self.idx = idx
         self.x_values = x_values
         self.y_values = y_values
         self.train = train
@@ -135,7 +136,7 @@ class MyCT(Dataset):
         self.target_transform = target_transform
 
     def __getitem__(self, index):
-        if self.train:
+        if self.train is True:
             # x, y = self.train_data[index], self.train_labels[index]
             x = x_values[idx:]
             y = y_values[idx:]
