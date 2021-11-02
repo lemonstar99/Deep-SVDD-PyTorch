@@ -42,6 +42,7 @@ class CT_Dataset(TorchvisionDataset):
         
         x = get_input_data()
         y = get_output_data()
+        y_new = []
         print("this is y: ", y)
         for i in range(0,2858):
             if y[i][normal_class] == 1:
