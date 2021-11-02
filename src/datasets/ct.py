@@ -56,19 +56,19 @@ class CT_Dataset(TorchvisionDataset):
             else:
                 y_total.append(1) # anomaly
 
-        test_count = int(0.1 * len(x))
+        # test_count = int(0.1 * len(x))
 
         x_y = list(zip(x, y_total))
         random.shuffle(x_y)
         x, y_total = zip(*x_y)
 
-        for i in range(0,285):
+        for i in range(0,1429):
             if y_total[i] == 0:
                 x_train.append(x[i])
                 y_train.append(0) # normal
                 cnt += 1
 
-        for i in range(285, 2858):
+        for i in range(1429, 2858):
             x_test.append(x[i])
             if y_total[i] == 0:
                 y_test.append(0) # normal
@@ -99,7 +99,7 @@ class CT_Dataset(TorchvisionDataset):
 
         # test_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y_new[test_count:])), torch.Tensor(np.arange(285, 2858)))
         # train_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y_new[:test_count])), torch.Tensor(np.arange(0, 285)))
-        test_set = TensorDataset(torch.Tensor(np.array(x_test)), torch.Tensor(np.array(y_test)), torch.Tensor(np.arange(test_count, 2858)))
+        test_set = TensorDataset(torch.Tensor(np.array(x_test)), torch.Tensor(np.array(y_test)), torch.Tensor(np.arange(1429, 2858)))
         train_set = TensorDataset(torch.Tensor(np.array(x_train)), torch.Tensor(np.array(y_train)), torch.Tensor(np.arange(0, cnt)))
 
         self.train_set = train_set
