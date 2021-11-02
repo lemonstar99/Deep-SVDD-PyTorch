@@ -30,7 +30,7 @@ class CT_LeNet(BaseNet):
         self.bn2d2 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
         self.conv3 = nn.Conv2d(64, 128, 3, bias=False, padding=2)
         self.bn2d3 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
-        self.fc1 = nn.Linear(256, 200, bias=False)
+        self.fc1 = nn.Linear(256, 64, bias=False)
 
         # self.relu = nn.ReLU()
         # self.conv1 = nn.Conv1d(182, 32, kernel_size=1, stride=2, bias=False)
@@ -62,16 +62,16 @@ class CT_LeNet(BaseNet):
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
         # print("5: ", x.size()) # [200, 64, 2, 1]
         x = self.conv3(x)
-        # print("6: ", x.size()) # [200, 128, 4, 3]
+        print("6: ", x.size()) # [200, 128, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        # print("7: ", x.size()) # [200, 128, 2, 1]
+        print("7: ", x.size()) # [200, 128, 2, 1]
         x = x.view(x.size(0), -1)
-        # print("8: ", x.size()) # [200, 256]
+        print("8: ", x.size()) # [200, 256]
         # x = self.conv4(x)
         # x = self.conv5(x)
         # x = self.conv6(x)
         x = self.fc1(x)
-        # print("9: ", x.size()) # [200, 200]
+        print("9: ", x.size()) # [200, 200]
         return x
 
 
@@ -186,9 +186,9 @@ class CT_LeNet_Autoencoder(BaseNet):
         x = F.interpolate(F.leaky_relu(self.bn2d6(x)), scale_factor=2)
         # print("d", x.size()) # [200, 32, 4, 4]
         x = self.deconv4(x)
-        # print("d", x.size()) # [200, 128, 3, 3]
+        # print("d", x.size()) # [200, 182, 3, 3]
         # x = self.deconv5(x)
         # x = self.deconv6(x)
         x = torch.sigmoid(x)
-        # print("final: ", x.size()) # [200, 128, 3, 3]
+        # print("final: ", x.size()) # [200, 182, 3, 3]
         return x[:,:,:,0]

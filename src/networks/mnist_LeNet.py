@@ -20,19 +20,19 @@ class MNIST_LeNet(BaseNet):
         self.fc1 = nn.Linear(4 * 7 * 7, self.rep_dim, bias=False)
 
     def forward(self, x):
-        print("0: ", x.size())
+        print("0: ", x.size()) # [200, 1, 28, 28]
         x = self.conv1(x)
-        print("1: ", x.size())
+        print("1: ", x.size()) # [200, 8, 28, 28]
         x = self.pool(F.leaky_relu(self.bn1(x)))
-        print("2: ", x.size())
+        print("2: ", x.size()) # [200, 8, 14, 14]
         x = self.conv2(x)
-        print("3: ", x.size())
+        print("3: ", x.size()) # [200, 4, 14, 14]
         x = self.pool(F.leaky_relu(self.bn2(x)))
-        print("4: ", x.size())
+        print("4: ", x.size()) # [200, 4, 7, 7]
         x = x.view(x.size(0), -1)
-        print("5: ", x.size())
+        print("5: ", x.size()) # [200, 196]
         x = self.fc1(x)
-        print("6: ", x.size())
+        print("6: ", x.size()) # [200, 32]
         return x
 
 
@@ -59,34 +59,34 @@ class MNIST_LeNet_Autoencoder(BaseNet):
         self.deconv3 = nn.ConvTranspose2d(8, 1, 5, bias=False, padding=2)
 
     def forward(self, x):
-        print("000: ", x.size())
+        print("000: ", x.size()) # [200, 1, 28, 28]
         x = self.conv1(x)
-        print("001: ", x.size())
+        print("001: ", x.size()) # [200, 8, 28, 28]
         x = self.pool(F.leaky_relu(self.bn1(x)))
-        print("002: ", x.size())
+        print("002: ", x.size()) # [200, 8, 14, 14]
         x = self.conv2(x)
-        print("003: ", x.size())
+        print("003: ", x.size()) # [200, 4, 14, 14]
         x = self.pool(F.leaky_relu(self.bn2(x)))
-        print("004: ", x.size())
+        print("004: ", x.size()) # [200, 4, 7, 7]
         x = x.view(x.size(0), -1)
-        print("005: ", x.size())
+        print("005: ", x.size()) # [200, 196]
         x = self.fc1(x)
-        print("006: ", x.size())
+        print("006: ", x.size()) # [200, 32]
         x = x.view(x.size(0), int(self.rep_dim / 16), 4, 4)
-        print("007: ", x.size())
+        print("007: ", x.size()) # [200, 2, 4, 4]
         x = F.interpolate(F.leaky_relu(x), scale_factor=2)
-        print("008: ", x.size())
+        print("008: ", x.size()) # [200, 2, 8, 8]
         x = self.deconv1(x)
-        print("009: ", x.size())
+        print("009: ", x.size()) # [200, 4, 8, 8]
         x = F.interpolate(F.leaky_relu(self.bn3(x)), scale_factor=2)
-        print("010: ", x.size())
+        print("010: ", x.size()) # [200, 4, 16, 16]
         x = self.deconv2(x)
-        print("011: ", x.size())
+        print("011: ", x.size()) # [200, 8, 14, 14]
         x = F.interpolate(F.leaky_relu(self.bn4(x)), scale_factor=2)
-        print("012: ", x.size())
+        print("012: ", x.size()) # [200, 8, 28, 28]
         x = self.deconv3(x)
-        print("013: ", x.size())
+        print("013: ", x.size()) # [200, 1, 28, 28]
         x = torch.sigmoid(x)
-        print("014: ", x.size())
+        print("014: ", x.size()) # [200, 1, 28, 28]
 
         return x
