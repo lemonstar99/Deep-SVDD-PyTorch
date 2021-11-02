@@ -49,13 +49,23 @@ class CT_Dataset(TorchvisionDataset):
         random.shuffle(x_y)
         x, y = zip(*x_y)
 
-        """
-        train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
-        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.arange(0, 285)))   
+        transform = transforms.Compose([transforms.ToTensor(),
+                                        transforms.Lambda(lambda x: global_contrast_normalization(x, scale='l1')),
+                                        ])
+
+        target_transform = transforms.Lambda(lambda x: int(x in self.outlier_classes))
+
+        y_new = get_target_label_idx(y, self.normal_classes)
+        
+        y_transformed = target_transform(y_new)
+        x_transformed = transform(x)
+
+        train_set = TensorDataset(torch.Tensor(np.array(x_transformed[test_count:])), torch.Tensor(np.array(y_transformed[test_count:])), torch.Tensor(np.arange(285, 2858)))
+        test_set = TensorDataset(torch.Tensor(np.array(x_transformed[:test_count])), torch.Tensor(np.array(y_transformed[:test_count])), torch.Tensor(np.arange(0, 285)))   
 
         self.train_set = train_set
         self.test_set = test_set
-        """
+        
 
         # train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
         # test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.arange(0, 285)))
@@ -63,6 +73,7 @@ class CT_Dataset(TorchvisionDataset):
         # self.train_set = train_set
         # self.test_set = test_set   
 
+        """
         transform = transforms.Compose([transforms.ToTensor(),
                                         transforms.Lambda(lambda x: global_contrast_normalization(x, scale='l1'))])
         
@@ -76,11 +87,7 @@ class CT_Dataset(TorchvisionDataset):
             
         self.test_set = MyCT(root=self.root, idx=test_count, x_values=x, y_values=y, train=False,
                                 transform=transform, target_transform=target_transform)
-        
-        
-
-        print("train set: ", self.train_set.size())
-        print("test set: ", self.test_set.size())
+        """
 
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
