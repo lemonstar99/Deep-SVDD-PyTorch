@@ -68,19 +68,19 @@ class CT_Dataset(TorchvisionDataset):
         
         target_transform = transforms.Lambda(lambda x: int(x in self.outlier_classes))
 
-        self.train_set = MyCT(root=self.root, idx=test_count, x_values=x, y_values=y, train=True,
+        train_set = MyCT(root=self.root, idx=test_count, x_values=x, y_values=y, train=True,
                             transform=transform, target_transform=target_transform)
         
         train_idx_normal = get_target_label_idx(y, self.normal_classes)
-        train_set = Subset(train_set, train_idx_normal)
+        self.train_set = TensorDataset(train_set, train_idx_normal)
             
         self.test_set = MyCT(root=self.root, idx=test_count, x_values=x, y_values=y, train=False,
                                 transform=transform, target_transform=target_transform)
         
         
 
-        print("train set: ", self.train_set)
-        print("test set: ", self.test_set)
+        print("train set: ", self.train_set.size())
+        print("test set: ", self.test_set.size())
 
         # in this order: x_train, y_train, x_test, y_test
         # np.array(x[test_count:]), np.array(y[test_count:]), np.array(x[:test_count]), np.array(y[:test_count])
