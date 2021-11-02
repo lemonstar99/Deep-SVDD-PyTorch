@@ -31,7 +31,6 @@ class CT_LeNet(BaseNet):
         self.conv3 = nn.Conv2d(64, 128, 3, bias=False, padding=2)
         self.bn2d3 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
         self.fc1 = nn.Linear(256, 200, bias=False)
-        self.bn1d = nn.BatchNorm1d(200, eps=1e-04, affine=False)
 
         # self.relu = nn.ReLU()
         # self.conv1 = nn.Conv1d(182, 32, kernel_size=1, stride=2, bias=False)
@@ -51,19 +50,29 @@ class CT_LeNet(BaseNet):
     # TODO forward layers will be same as above
     def forward(self, x):
         # x = np.expand_dims(x, 1)
+        print("0: ", x.size())
         x = x.unsqueeze(3)
+        print("1: ", x.size())
         x = self.conv1(x)
+        print("2: ", x.size())
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
+        print("3: ", x.size())
         x = self.conv2(x)
+        print("4: ", x.size())
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
+        print("5: ", x.size())
         x = self.conv3(x)
+        print("6: ", x.size())
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
+        print("7: ", x.size())
         x = x.view(x.size(0), -1)
+        print("8: ", x.size())
         # x = self.conv4(x)
         # x = self.conv5(x)
         # x = self.conv6(x)
         x = self.fc1(x)
-        return x[:,:,:,0]
+        print("9: ", x.size())
+        return x
 
 
 class CT_LeNet_Autoencoder(BaseNet):
