@@ -45,10 +45,11 @@ class CT_Dataset(TorchvisionDataset):
 
         test_count = int(0.1 * len(x))
         train_set = TensorDataset(torch.Tensor(np.array(x[:50])), torch.Tensor(np.array(y[:50])), torch.Tensor(np.arange(0, 50)))
+        print("this is y before: ", y)
         x_y = list(zip(x, y))
         random.shuffle(x_y)
         x, y = zip(*x_y)
-        print("this is y: ", y)
+        print("this is y after: ", y)
         """
 
         # y_train_new = get_target_label_idx(np.array(y[test_count:]), self.normal_classes)
