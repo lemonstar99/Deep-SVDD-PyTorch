@@ -92,7 +92,7 @@ class CT_Dataset(TorchvisionDataset):
 
         # test_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y_new[test_count:])), torch.Tensor(np.arange(285, 2858)))
         # train_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y_new[:test_count])), torch.Tensor(np.arange(0, 285)))
-        test_set = TensorDataset(torch.Tensor(np.array(x_test[test_count:])), torch.Tensor(np.array(y_total[test_count:])), torch.Tensor(np.arange(test_count, 2858)))
+        test_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y_total[test_count:])), torch.Tensor(np.arange(test_count, 2858)))
         train_set = TensorDataset(torch.Tensor(np.array(x_train)), torch.Tensor(np.array(y_train)), torch.Tensor(np.arange(0, cnt)))
 
         self.train_set = train_set
