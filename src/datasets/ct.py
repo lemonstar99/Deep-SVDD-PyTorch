@@ -51,22 +51,22 @@ class CT_Dataset(TorchvisionDataset):
         
         for i in range(0,2858):
             if y[i][normal_class] == 1:
-                y_total.append(0)
-                x_test.append(x[i])
-                # y_test.append(0)
-                x_train.append(x[i])
-                y_train.append(0)
-                cnt += 1
+                y_total.append(0) # normal
+                # cnt += 1
             else:
-                y_total.append(1)
-                x_test.append(x[i])
-                # y_test.append(1)
+                y_total.append(1) # anomaly
 
         test_count = int(0.1 * len(x))
 
-        x_y = list(zip(x_test, y_total))
+        x_y = list(zip(X, y_total))
         random.shuffle(x_y)
-        x_test, y_total = zip(*x_y)
+        x, y_total = zip(*x_y)
+
+        for i in range(0,285):
+            if y_total == 0:
+                x_train.append(x[i])
+                y_train.append(0) # normal
+                cnt += 1
 
         # print("count: ", cnt)
         # print ("y_train: ", y_train)
