@@ -10,7 +10,7 @@ import torch
 import copy
 import random
 import numpy as np
-from torch.utils.data import Dataset, TensorDataset, DataLoader
+from torch.utils.data import Dataset, TensorDataset, DataLoader, Subset
 # from sklearn.preprocessing import StandardScaler
 from keras.utils import np_utils
 from base.torchvision_dataset import TorchvisionDataset
