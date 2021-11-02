@@ -63,7 +63,8 @@ class AETrainer(BaseTrainer):
                 loss = torch.mean(scores)
                 loss.backward()
                 optimizer.step()
-
+                print("outputs: ", outputs)
+                print("score: ", scores)
                 loss_epoch += loss.item()
                 n_batches += 1
 
@@ -102,7 +103,8 @@ class AETrainer(BaseTrainer):
                 # scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 scores = torch.sum((outputs - inputs) ** 2, dim=tuple(range(1, outputs.dim())))
                 loss = torch.mean(scores)
-                print("outputs: ", outputs, " score: ", scores)
+                print("outputs: ", outputs)
+                print("score: ", scores)
                 # Save triple of (idx, label, score) in a list
                 idx_label_score += list(zip(idx.cpu().data.numpy().tolist(),
                                             labels.cpu().data.numpy().tolist(),
