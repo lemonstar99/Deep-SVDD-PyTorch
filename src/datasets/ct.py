@@ -31,7 +31,7 @@ number_of_character_classes = 20  # a b c d e g h l m n o p q r s u v w y z
 
 class CT_Dataset(TorchvisionDataset):
 
-    def __init__(self, root: str, normal_class=2):
+    def __init__(self, root: str, normal_class):
 
         super().__init__(root)
         # self.root = root
@@ -42,19 +42,31 @@ class CT_Dataset(TorchvisionDataset):
         
         x = get_input_data()
         y = get_output_data()
-        y_new = []
+        y_total = []
+        x_train = []
+        y_train = []
+        x_test = []
+        y_test = []
+        cnt = 0 
         
         for i in range(0,2858):
             if y[i][normal_class] == 1:
-                y_new.append(0)
+                y_total.append(0)
+                x_test.append(x[i])
+                # y_test.append(0)
+                x_train.append(x[i])
+                y_train.append(0)
+                cnt += 1
             else:
-                y_new.append(1)
+                y_total.append(1)
+                x_test.append(x[i])
+                # y_test.append(1)
 
         test_count = int(0.1 * len(x))
 
-        x_y = list(zip(x, y))
+        x_y = list(zip(x_test, y_total))
         random.shuffle(x_y)
-        x, y = zip(*x_y)
+        x_test, y_total = zip(*x_y)
 
         """
 
@@ -75,8 +87,10 @@ class CT_Dataset(TorchvisionDataset):
         
         """
 
-        train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y_new[test_count:])), torch.Tensor(np.arange(285, 2858)))
-        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y_new[:test_count])), torch.Tensor(np.arange(0, 285)))
+        # test_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y_new[test_count:])), torch.Tensor(np.arange(285, 2858)))
+        # train_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y_new[:test_count])), torch.Tensor(np.arange(0, 285)))
+        test_set = TensorDataset(torch.Tensor(np.array(x_test)), torch.Tensor(np.array(y_total)), torch.Tensor(np.arange(0, 2858)))
+        train_set = TensorDataset(torch.Tensor(np.array(x_train)), torch.Tensor(np.array(y_train)), torch.Tensor(np.arange(0, cnt)))
 
         self.train_set = train_set
         self.test_set = test_set   
