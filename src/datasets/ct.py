@@ -63,10 +63,17 @@ class CT_Dataset(TorchvisionDataset):
         x, y_total = zip(*x_y)
 
         for i in range(0,285):
-            if y_total == 0:
+            if y_total[i] == 0:
                 x_train.append(x[i])
                 y_train.append(0) # normal
                 cnt += 1
+
+        for i in range(285, 2858):
+            x_test.append(x[i])
+            if y_total[i] == 0:
+                y_test.append(0) # normal
+            else:
+                y_test.append(1)
 
         # print("count: ", cnt)
         # print ("y_train: ", y_train)
@@ -92,7 +99,7 @@ class CT_Dataset(TorchvisionDataset):
 
         # test_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y_new[test_count:])), torch.Tensor(np.arange(285, 2858)))
         # train_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y_new[:test_count])), torch.Tensor(np.arange(0, 285)))
-        test_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y_total[test_count:])), torch.Tensor(np.arange(test_count, 2858)))
+        test_set = TensorDataset(torch.Tensor(np.array(x_test)), torch.Tensor(np.array(y_test)), torch.Tensor(np.arange(test_count, 2858)))
         train_set = TensorDataset(torch.Tensor(np.array(x_train)), torch.Tensor(np.array(y_train)), torch.Tensor(np.arange(0, cnt)))
 
         self.train_set = train_set
