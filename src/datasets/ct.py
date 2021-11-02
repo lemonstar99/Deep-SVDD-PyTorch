@@ -44,12 +44,11 @@ class CT_Dataset(TorchvisionDataset):
         y = get_output_data()
 
         test_count = int(0.1 * len(x))
-        train_set = TensorDataset(torch.Tensor(np.array(x[:50])), torch.Tensor(np.array(y[:50])), torch.Tensor(np.arange(0, 50)))
-        print("this is y before: ", y)
+
         x_y = list(zip(x, y))
         random.shuffle(x_y)
         x, y = zip(*x_y)
-        print("this is y after: ", y)
+
         """
 
         # y_train_new = get_target_label_idx(np.array(y[test_count:]), self.normal_classes)
@@ -69,7 +68,8 @@ class CT_Dataset(TorchvisionDataset):
         
         """
 
-        test_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
+        train_set = TensorDataset(torch.Tensor(np.array(x[test_count:])), torch.Tensor(np.array(y[test_count:])), torch.Tensor(np.arange(285, 2858)))
+        test_set = TensorDataset(torch.Tensor(np.array(x[:test_count])), torch.Tensor(np.array(y[:test_count])), torch.Tensor(np.arange(0, 285)))
 
         self.train_set = train_set
         self.test_set = test_set   
@@ -123,7 +123,7 @@ def get_output_data():
         for character_class in f.readlines()[0].split('|'):
             y.append(int(character_class) - 1)
             cnt += 1
-    return y
+    return np_utils.to_categorical(y, number_of_character_classes)
 
 
 class MyCT(Dataset):
