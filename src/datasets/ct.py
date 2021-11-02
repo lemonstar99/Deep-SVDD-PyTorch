@@ -52,19 +52,19 @@ class CT_Dataset(TorchvisionDataset):
         y_train_new = get_target_label_idx(np.array(y[test_count:]), self.normal_classes)
         y_test_new = get_target_label_idx(np.array(y[:test_count]), self.normal_classes)
         
-        # print(y_test_new.type()) # list object
+        print(y_test_new) # list object
 
-        # y_train_transformed = target_transform(y_train_new)
+        y_train_transformed = target_transform(y_train_new)
         x_train_transformed = global_contrast_normalization(torch.Tensor(np.array(x[test_count:])))
 
-        # y_test_transformed = target_transform(y_test_new)
+        y_test_transformed = target_transform(y_test_new)
         x_test_transformed = global_contrast_normalization(torch.Tensor(np.array(x[:test_count])))
 
         print(x_test_transformed.type())
-        # print(y_test_transformed.type())
+        print(y_test_transformed.type())
 
-        train_set = TensorDataset(x_train_transformed, y_train_new)
-        test_set = TensorDataset(x_test_transformed, y_test_new)   
+        train_set = TensorDataset(x_train_transformed, y_train_transformed, torch.Tensor(np.arange(285, 2858)))
+        test_set = TensorDataset(x_test_transformed, y_test_transformed, torch.Tensor(np.arange(0, 285)))   
 
         self.train_set = train_set
         self.test_set = test_set
