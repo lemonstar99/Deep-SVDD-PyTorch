@@ -13,9 +13,9 @@ class EP_Dataset(TorchvisionDataset):
         self.n_classes = 2
 
         # set up training set
-        url1_train = '../data/epilepsy/EpilepsyDimension1_Train.arff'
-        url2_train = '../data/epilepsy/EpilepsyDimension2_Train.arff'
-        url3_train = '../data/epilepsy/EpilepsyDimension3_Train.arff'
+        url1_train = '../data/epilepsy/EpilepsyDimension1_TRAIN.arff'
+        url2_train = '../data/epilepsy/EpilepsyDimension2_TRAIN.arff'
+        url3_train = '../data/epilepsy/EpilepsyDimension3_TRAIN.arff'
 
         x_dim1_train, target_train = get_data(url1_train)
         x_dim2_train, __ = get_data(url2_train)
@@ -30,9 +30,9 @@ class EP_Dataset(TorchvisionDataset):
         self.train_set = train_set
 
         # set up testing set
-        url1_test = '../data/epilepsy/EpilepsyDimension1_Test.arff'
-        url2_test = '../data/epilepsy/EpilepsyDimension2_Test.arff'
-        url3_test = '../data/epilepsy/EpilepsyDimension3_Test.arff'
+        url1_test = '../data/epilepsy/EpilepsyDimension1_TEST.arff'
+        url2_test = '../data/epilepsy/EpilepsyDimension2_TEST.arff'
+        url3_test = '../data/epilepsy/EpilepsyDimension3_TEST.arff'
 
         x_dim1_test, target_test = get_data(url1_test)
         x_dim2_test, __ = get_data(url2_test)
