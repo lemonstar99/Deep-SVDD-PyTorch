@@ -67,15 +67,15 @@ def get_data(url):
 
     return x, y
 
-def get_labels(dim1, dim2, dim3, row, column):
-    """
-    This function combines 3 dimensions into one 3d array.
-    """
-    x_new = np.zeros([row, column])
+# def get_labels(dim1, dim2, dim3, row, column):
+#     """
+#     This function combines 3 dimensions into one 3d array.
+#     """
+#     x_new = np.zeros([row, column])
 
-    for i in range(0, row):
-        for j in range(0, column):
-            #TODO
+#     for i in range(0, row):
+#         for j in range(0, column):
+#             #TODO
             
 
 
