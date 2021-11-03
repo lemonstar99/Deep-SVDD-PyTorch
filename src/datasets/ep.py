@@ -31,7 +31,7 @@ class EP_Dataset(TorchvisionDataset):
         y_train, index_train = get_target(target_train, normal_class)
 
         # train only on normal data, extracting normal data
-        x_final_train, y_final_train, index_final_train = get_training_set(x_train, y_train, index_train, normal_class)
+        x_final_train, y_final_train, index_final_train = get_training_set(x_train, y_train, index_train)
 
         print("size: ", x_final_train.shape)
         train_set = TensorDataset(torch.Tensor(x_final_train), torch.Tensor(y_final_train), torch.Tensor(index_final_train))
@@ -111,7 +111,7 @@ def get_training_set(x, y, idx, normal_class):
     idx_final = []
 
     for i in range(0, len(x)):
-        if y[i] == normal_class:
+        if y[i] == 0:
             x_final.append(x[i])
             y_final.append(y[i])
     
