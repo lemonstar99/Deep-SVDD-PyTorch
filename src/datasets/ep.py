@@ -12,19 +12,22 @@ class EP_Dataset(TorchvisionDataset):
 
         super().__init__(root)
         self.n_classes = 2
+        self.normal_class = normal_class
 
-        # set up training set
+        # train set
+        #load data file path
         url1_train = '../data/epilepsy/EpilepsyDimension1_TRAIN.arff'
         url2_train = '../data/epilepsy/EpilepsyDimension2_TRAIN.arff'
         url3_train = '../data/epilepsy/EpilepsyDimension3_TRAIN.arff'
 
+        # get x and y as dataframe
         x_dim1_train, target_train = get_data(url1_train)
         x_dim2_train, __ = get_data(url2_train)
         x_dim3_train, __ = get_data(url3_train)
-        row_train = x_dim1_train[:,0].shape
-        column_train = x_dim1_train[0,:].shape
 
+        # combine 3 dimensions of x
         x_final_train = np.dstack([x_dim1_train, x_dim2_train, x_dim3_train])
+        # process output y and produce index
         y_final_train, index_train = get_target(target_train)
 
         train_set = TensorDataset(torch.Tensor(x_final_train), torch.Tensor(y_final_train), torch.Tensor(index_train))
@@ -38,8 +41,6 @@ class EP_Dataset(TorchvisionDataset):
         x_dim1_test, target_test = get_data(url1_test)
         x_dim2_test, __ = get_data(url2_test)
         x_dim3_test, __ = get_data(url3_test)
-        row_test = x_dim1_test[:,0].shape
-        column_test = x_dim1_test[0,:].shape
 
         x_final_test = np.dstack([x_dim1_test, x_dim2_test, x_dim3_test])
         y_final_test, index_test = get_target(target_test)
@@ -68,19 +69,8 @@ def get_data(url):
 
     return x, y
 
-# def get_labels(dim1, dim2, dim3, row, column):
-#     """
-#     This function combines 3 dimensions into one 3d array.
-#     """
-#     x_new = np.zeros([row, column])
 
-#     for i in range(0, row):
-#         for j in range(0, column):
-#             #TODO
-            
-
-
-def get_target(y):
+def get_target(y, normal_class):
     """
     input: pandas series. last column of dataframe.
     This function converts the byte string of series and compare to each classification group
@@ -88,18 +78,25 @@ def get_target(y):
     output: returns numpy array of numbers and index array
     """
     y_new = []
+    y_temp = []
     idx = []
     length = len(y)
 
     for i in range(0, length):
         if y[i].decode('UTF-8') == 'EPILEPSY':
-            y_new.append(0)
+            y_temp.append(0)
         elif y[i].decode('UTF-8') == 'SAWING':
-            y_new.append(1)
+            y_temp.append(1)
         elif y[i].decode('UTF-8') == 'RUNNING':
-            y_new.append(2)
+            y_temp.append(2)
         elif y[i].decode('UTF-8') == 'WALKING':
-            y_new.append(3)
+            y_temp.append(3)
         idx.append(i)
+
+    for i in range(0, length):
+        if y_temp[i] == normal_class:
+            y_new.append(0) # normal
+        else:
+            y_new.append(1) # anomaly
 
     return np.array(y_new), np.array(idx)
