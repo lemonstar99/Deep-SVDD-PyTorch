@@ -36,9 +36,9 @@ class CT_Dataset(TorchvisionDataset):
         super().__init__(root)
         # self.root = root
         self.n_classes = 2  # 0: normal, 1: outlier
-        self.normal_classes = tuple([normal_class])
-        self.outlier_classes = list(range(0, 20))
-        self.outlier_classes.remove(normal_class)
+        # self.normal_classes = tuple([normal_class])
+        # self.outlier_classes = list(range(0, 20))
+        # self.outlier_classes.remove(normal_class)
         
         x = get_input_data()
         y = get_output_data()
@@ -75,8 +75,9 @@ class CT_Dataset(TorchvisionDataset):
             else:
                 y_test.append(1)
 
-        # print("count: ", cnt)
-        # print ("y_train: ", y_train)
+        print("count: ", cnt)
+        print ("y_train: ", y_train)
+        print("normal class: ", normal_class)
         # print ("y_total: ", y_total)
         """
 
