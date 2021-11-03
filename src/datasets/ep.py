@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import torch
 
 from scipy.io import arff
 from base.torchvision_dataset import TorchvisionDataset
