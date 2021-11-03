@@ -26,11 +26,15 @@ class EP_Dataset(TorchvisionDataset):
         x_dim3_train, __ = get_data(url3_train)
 
         # combine 3 dimensions of x
-        x_final_train = np.dstack([x_dim1_train, x_dim2_train, x_dim3_train])
+        x_train = np.dstack([x_dim1_train, x_dim2_train, x_dim3_train])
         # process output y and produce index
-        y_final_train, index_train = get_target(target_train, normal_class)
+        y_train, index_train = get_target(target_train, normal_class)
 
-        train_set = TensorDataset(torch.Tensor(x_final_train), torch.Tensor(y_final_train), torch.Tensor(index_train))
+        # train only on normal data, extracting normal data
+        x_final_train, y_final_train, index_final_train = get_training_set(x_train, y_train, index_train, normal_class)
+
+        print("size: ", x_final_train.size)
+        train_set = TensorDataset(torch.Tensor(x_final_train), torch.Tensor(y_final_train), torch.Tensor(index_final_train))
         self.train_set = train_set
 
         # set up testing set
@@ -100,3 +104,18 @@ def get_target(y, normal_class):
             y_new.append(1) # anomaly
 
     return np.array(y_new), np.array(idx)
+
+def get_training_set(x, y, idx, normal_class):
+    x_final = []
+    y_final = []
+    idx_final = []
+
+    for i in range(0, len(x)):
+        if y[i] == normal_class:
+            x_final.append(x[i])
+            y_final.append(y[i])
+    
+    for i in range(0, len(x_final)):
+        idx_final.append(i)
+    
+    return np.array(x_final), np.array(y_final), np.array(idx_final)
