@@ -28,7 +28,7 @@ class EP_Dataset(TorchvisionDataset):
         # combine 3 dimensions of x
         x_final_train = np.dstack([x_dim1_train, x_dim2_train, x_dim3_train])
         # process output y and produce index
-        y_final_train, index_train = get_target(target_train)
+        y_final_train, index_train = get_target(target_train, normal_class)
 
         train_set = TensorDataset(torch.Tensor(x_final_train), torch.Tensor(y_final_train), torch.Tensor(index_train))
         self.train_set = train_set
