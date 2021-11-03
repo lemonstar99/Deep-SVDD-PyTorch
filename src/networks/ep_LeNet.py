@@ -10,7 +10,7 @@ class EP_LeNet(BaseNet):
     def __init__(self):
         super().__init__()
 
-        # self.rep_dim = 64
+        self.rep_dim = 64
         self.pool = nn.MaxPool2d(2, 2)
 
         self.conv1 = nn.Conv2d(206, 32, 3, bias=False, padding=2)
@@ -48,7 +48,7 @@ class EP_LeNet_Autoencoder(BaseNet):
     def __init__(self):
         super().__init__()
 
-        # self.rep_dim = 64
+        self.rep_dim = 64
         self.pool = nn.MaxPool2d(2, 2)
 
         self.conv1 = nn.Conv2d(206, 32, 3, bias=False, padding=2)
