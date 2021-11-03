@@ -22,25 +22,25 @@ class EP_LeNet(BaseNet):
         self.fc1 = nn.Linear(256, 64, bias=False)
 
     def forward(self, x):
-        print("0: ", x.size())
+        # print("0: ", x.size()) # [138, 206, 3]
         x = x.unsqueeze(3)
-        print("1: ", x.size())
+        # print("1: ", x.size()) # [138, 206, 3, 1]
         x = self.conv1(x)
-        print("2: ", x.size())
+        # print("2: ", x.size()) # [138, 32, 5, 3]
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("3: ", x.size())
+        # print("3: ", x.size()) # [138, 32, 2, 1]
         x = self.conv2(x)
-        print("4: ", x.size())
+        # print("4: ", x.size()) # [138, 64, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("5: ", x.size())
+        # print("5: ", x.size()) # [138, 64, 2, 1]
         x = self.conv3(x)
-        print("6: ", x.size())
+        # print("6: ", x.size()) # [138, 128, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        print("7: ", x.size())
+        # print("7: ", x.size()) # [138, 128, 2, 1]
         x = x.view(x.size(0), -1)
-        print("8: ", x.size())
+        # print("8: ", x.size()) # [138, 256]
         x = self.fc1(x)
-        print("9: ", x.size())
+        # print("9: ", x.size()) # [138, 64]
         return x
 
 class EP_LeNet_Autoencoder(BaseNet):
