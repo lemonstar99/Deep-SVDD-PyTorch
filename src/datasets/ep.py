@@ -43,7 +43,7 @@ class EP_Dataset(TorchvisionDataset):
         x_dim3_test, __ = get_data(url3_test)
 
         x_final_test = np.dstack([x_dim1_test, x_dim2_test, x_dim3_test])
-        y_final_test, index_test = get_target(target_test)
+        y_final_test, index_test = get_target(target_test, normal_class)
 
         test_set = TensorDataset(torch.Tensor(x_final_test), torch.Tensor(y_final_test), torch.Tensor(index_test))
         self.test_set = test_set
