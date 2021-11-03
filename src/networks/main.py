@@ -8,7 +8,7 @@ from .ep_LeNet import EP_LeNet, EP_LeNet_Autoencoder
 def build_network(net_name):
     """Builds the neural network."""
 
-    implemented_networks = ('mnist_LeNet', 'cifar10_LeNet', 'cifar10_LeNet_ELU', 'ct_LeNet')
+    implemented_networks = ('mnist_LeNet', 'cifar10_LeNet', 'cifar10_LeNet_ELU', 'ct_LeNet', 'ep_LeNet')
     assert net_name in implemented_networks
 
     net = None
