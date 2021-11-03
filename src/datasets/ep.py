@@ -105,7 +105,7 @@ def get_target(y, normal_class):
 
     return np.array(y_new), np.array(idx)
 
-def get_training_set(x, y, idx, normal_class):
+def get_training_set(x, y, idx):
     x_final = []
     y_final = []
     idx_final = []
