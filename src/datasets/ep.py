@@ -71,7 +71,7 @@ def get_labels(dim1, dim2, dim3, row, column):
     """
     This function combines 3 dimensions into one 3d array.
     """
-    x_new = np.zeros([row, column)
+    x_new = np.zeros([row, column])
 
     for i in range(0, row):
         for j in range(0, column):
