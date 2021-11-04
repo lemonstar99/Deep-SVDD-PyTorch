@@ -22,25 +22,25 @@ class NATOPS_LeNet(BaseNet):
         self.fc1 = nn.Linear(256, 64, bias=False)
     
     def forward(self, x):
-        print("0: ", x.size()) # [138, 206, 3]
+        print("0: ", x.size()) # []
         x = x.unsqueeze(3)
-        print("1: ", x.size()) # [138, 206, 3, 1]
+        print("1: ", x.size()) # []
         x = self.conv1(x)
-        print("2: ", x.size()) # [138, 32, 5, 3]
+        print("2: ", x.size()) # []
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("3: ", x.size()) # [138, 32, 2, 1]
+        print("3: ", x.size()) # []
         x = self.conv2(x)
-        print("4: ", x.size()) # [138, 64, 4, 3]
+        print("4: ", x.size()) # []
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("5: ", x.size()) # [138, 64, 2, 1]
+        print("5: ", x.size()) # []
         x = self.conv3(x)
-        print("6: ", x.size()) # [138, 128, 4, 3]
+        print("6: ", x.size()) # []
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        print("7: ", x.size()) # [138, 128, 2, 1]
+        print("7: ", x.size()) # []
         x = x.view(x.size(0), -1)
-        print("8: ", x.size()) # [138, 256]
+        print("8: ", x.size()) # []
         x = self.fc1(x)
-        print("9: ", x.size()) # [138, 64]
+        print("9: ", x.size()) # []
         return x
 
 class NATOPS_LeNet_Autoencoder(BaseNet):
@@ -54,10 +54,10 @@ class NATOPS_LeNet_Autoencoder(BaseNet):
         self.conv1 = nn.Conv2d(51, 32, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.conv1.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
-        self.conv2 = nn.Conv2d(32, 64, 3, bias=False, padding=2)
+        self.conv2 = nn.Conv2d(32, 64, 4, bias=False, padding=2)
         nn.init.xavier_uniform_(self.conv2.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d2 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
-        self.conv3 = nn.Conv2d(64, 128, 3, bias=False, padding=2)
+        self.conv3 = nn.Conv2d(64, 128, 4, bias=False, padding=2)
         nn.init.xavier_uniform_(self.conv3.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d3 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
         self.fc1 = nn.Linear(256, 64, bias=False)
