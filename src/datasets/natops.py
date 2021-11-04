@@ -65,7 +65,7 @@ class NATOPS_Dataset(TorchvisionDataset):
         x_dim21_train, __ = get_data(url21_train)
         x_dim22_train, __ = get_data(url22_train)
         x_dim23_train, __ = get_data(url23_train)
-        x_dim24_train, __ = get_data(url34_train)
+        x_dim24_train, __ = get_data(url24_train)
 
         # combine 24 dimensions of x
         x_train = np.dstack([x_dim1_train, x_dim2_train, x_dim3_train, x_dim4_train, x_dim5_train, x_dim6_train, x_dim7_train, x_dim8_train, x_dim9_train, x_dim10_train, x_dim11_train, x_dim12_train, x_dim13_train, x_dim14_train, x_dim15_train, x_dim16_train, x_dim17_train, x_dim18_train, x_dim19_train, x_dim20_train, x_dim21_train, x_dim22_train, x_dim23_train, x_dim24_train])
