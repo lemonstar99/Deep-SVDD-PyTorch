@@ -72,31 +72,31 @@ class RS_LeNet_Autoencoder(BaseNet):
         self.deconv3 = nn.ConvTranspose2d(64, 32, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv3.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d6 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
-        self.deconv4 = nn.ConvTranspose2d(32, 30, 4, bias=False, padding=2)
+        self.deconv4 = nn.ConvTranspose2d(32, 30, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv4.weight, gain=nn.init.calculate_gain('leaky_relu'))
 
     def forward(self, x):
-        print("00: ", x.size())
+        print("00: ", x.size()) # [39, 30, 6]
         x = x.unsqueeze(3)
-        print("01: ", x.size())
+        print("01: ", x.size()) # [39, 30, 6, 1]
         x = self.conv1(x)
-        print("02: ", x.size())
+        print("02: ", x.size()) # [39, 32, 8, 3]
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("03: ", x.size())
+        print("03: ", x.size()) # [39, 32, 4, 1]
         x = self.conv2(x)
-        print("04: ", x.size())
+        print("04: ", x.size()) # [39, 64, 6, 3]
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("05: ", x.size())
+        print("05: ", x.size()) # [39, 64, 3, 1]
         x = self.conv3(x)
-        print("06: ", x.size())
+        print("06: ", x.size()) # [39, 128, 5, 3]
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        print("07: ", x.size())
+        print("07: ", x.size()) # [39, 128, 2, 1]
         x = x.view(x.size(0), -1)
-        print("08: ", x.size())
+        print("08: ", x.size()) # [39, 256]
         x = self.bn1d(self.fc1(x))
-        print("09: ", x.size())
+        print("09: ", x.size()) # [39, 64]
         x = x.view(x.size(0), int(64 / (2 * 2)), 2, 2)
-        print("10: ", x.size())
+        print("10: ", x.size()) # []
         x = F.leaky_relu(x)
         print("11: ", x.size())
         x = self.deconv1(x)
