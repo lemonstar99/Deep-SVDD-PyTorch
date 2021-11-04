@@ -51,7 +51,7 @@ class NATOPS_LeNet_Autoencoder(BaseNet):
         self.rep_dim = 64
         self.pool = nn.MaxPool2d(2, 2)
 
-        self.conv1 = nn.Conv2d(51, 32, 2, bias=False, padding=2)
+        self.conv1 = nn.Conv2d(51, 32, 4, bias=False, padding=2)
         nn.init.xavier_uniform_(self.conv1.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
         self.conv2 = nn.Conv2d(32, 64, 4, bias=False, padding=2)
