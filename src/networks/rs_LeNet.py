@@ -66,7 +66,7 @@ class RS_LeNet_Autoencoder(BaseNet):
         self.deconv1 = nn.ConvTranspose2d(int(64 / (2 * 2)), 128, 5, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv1.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d4 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
-        self.deconv2 = nn.ConvTranspose2d(128, 64, 4, bias=False, padding=2)
+        self.deconv2 = nn.ConvTranspose2d(128, 64, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv2.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d5 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
         self.deconv3 = nn.ConvTranspose2d(64, 32, 3, bias=False, padding=2)
