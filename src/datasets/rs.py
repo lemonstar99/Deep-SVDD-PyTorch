@@ -6,7 +6,7 @@ from scipy.io import arff
 from base.torchvision_dataset import TorchvisionDataset
 from torch.utils.data import TensorDataset
 
-class EP_Dataset(TorchvisionDataset):
+class RS_Dataset(TorchvisionDataset):
 
     def __init__(self, root: str, normal_class):
 
@@ -16,17 +16,23 @@ class EP_Dataset(TorchvisionDataset):
 
         # train set
         #load data file path
-        url1_train = '../data/epilepsy/EpilepsyDimension1_TRAIN.arff'
-        url2_train = '../data/epilepsy/EpilepsyDimension2_TRAIN.arff'
-        url3_train = '../data/epilepsy/EpilepsyDimension3_TRAIN.arff'
+        url1_train = '../data/rs/RacketSportsDimension1_TRAIN.arff'
+        url2_train = '../data/rs/RacketSportsDimension2_TRAIN.arff'
+        url3_train = '../data/rs/RacketSportsDimension3_TRAIN.arff'
+        url4_train = '../data/rs/RacketSportsDimension4_TRAIN.arff'
+        url5_train = '../data/rs/RacketSportsDimension5_TRAIN.arff'
+        url6_train = '../data/rs/RacketSportsDimension6_TRAIN.arff'
 
         # get x and y as dataframe
         x_dim1_train, target_train = get_data(url1_train)
         x_dim2_train, __ = get_data(url2_train)
         x_dim3_train, __ = get_data(url3_train)
+        x_dim4_train, __ = get_data(url4_train)
+        x_dim5_train, __ = get_data(url5_train)
+        x_dim6_train, __ = get_data(url6_train)
 
-        # combine 3 dimensions of x
-        x_train = np.dstack([x_dim1_train, x_dim2_train, x_dim3_train])
+        # combine 6 dimensions of x
+        x_train = np.dstack([x_dim1_train, x_dim2_train, x_dim3_train, x_dim4_train, x_dim5_train, x_dim6_train])
         # process output y and produce index
         y_train, index_train = get_target(target_train, normal_class)
 
@@ -38,15 +44,21 @@ class EP_Dataset(TorchvisionDataset):
         self.train_set = train_set
 
         # set up testing set
-        url1_test = '../data/epilepsy/EpilepsyDimension1_TEST.arff'
-        url2_test = '../data/epilepsy/EpilepsyDimension2_TEST.arff'
-        url3_test = '../data/epilepsy/EpilepsyDimension3_TEST.arff'
+        url1_test = '../data/rs/RacketSportsDimension1_TEST.arff'
+        url2_test = '../data/rs/RacketSportsDimension2_TEST.arff'
+        url3_test = '../data/rs/RacketSportsDimension3_TEST.arff'
+        url4_test = '../data/rs/RacketSportsDimension4_TEST.arff'
+        url5_test = '../data/rs/RacketSportsDimension5_TEST.arff'
+        url6_test = '../data/rs/RacketSportsDimension6_TEST.arff'
 
         x_dim1_test, target_test = get_data(url1_test)
         x_dim2_test, __ = get_data(url2_test)
         x_dim3_test, __ = get_data(url3_test)
+        x_dim4_test, __ = get_data(url4_test)
+        x_dim5_test, __ = get_data(url5_test)
+        x_dim6_test, __ = get_data(url6_test)
 
-        x_final_test = np.dstack([x_dim1_test, x_dim2_test, x_dim3_test])
+        x_final_test = np.dstack([x_dim1_test, x_dim2_test, x_dim3_test, x_dim4_test, x_dim5_test, x_dim6_test])
         y_final_test, index_test = get_target(target_test, normal_class)
 
         test_set = TensorDataset(torch.Tensor(x_final_test), torch.Tensor(y_final_test), torch.Tensor(index_test))
@@ -87,13 +99,13 @@ def get_target(y, normal_class):
     length = len(y)
 
     for i in range(0, length):
-        if y[i].decode('UTF-8') == 'EPILEPSY':
+        if y[i].decode('UTF-8') == 'Badminton_Smash':
             y_temp.append(0)
-        elif y[i].decode('UTF-8') == 'SAWING':
+        elif y[i].decode('UTF-8') == 'Badminton_Clear':
             y_temp.append(1)
-        elif y[i].decode('UTF-8') == 'RUNNING':
+        elif y[i].decode('UTF-8') == 'Squash_ForehandBoast':
             y_temp.append(2)
-        elif y[i].decode('UTF-8') == 'WALKING':
+        elif y[i].decode('UTF-8') == 'Squash_BackhandBoast':
             y_temp.append(3)
         idx.append(i)
 

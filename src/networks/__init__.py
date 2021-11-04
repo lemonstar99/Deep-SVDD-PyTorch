@@ -4,3 +4,6 @@ from .cifar10_LeNet import CIFAR10_LeNet, CIFAR10_LeNet_Autoencoder
 from .cifar10_LeNet_elu import CIFAR10_LeNet_ELU, CIFAR10_LeNet_ELU_Autoencoder
 from .ct_LeNet import CT_LeNet, CT_LeNet_Autoencoder
 from .ep_LeNet import EP_LeNet, EP_LeNet_Autoencoder
+from .rs_LeNet import RS_LeNet, RS_LeNet_Autoencoder
+from .sad_LeNet import SAD_LeNet, SAD_LeNet_Autoencoder
+from .natops_LeNet import NATOPS_LeNet, NATOPS_LeNet_Autoencoder
