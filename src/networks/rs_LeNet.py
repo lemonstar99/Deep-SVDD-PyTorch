@@ -22,25 +22,25 @@ class RS_LeNet(BaseNet):
         self.fc1 = nn.Linear(256, 64, bias=False)
     
     def forward(self, x):
-        print("0: ", x.size()) # [138, 206, 3]
+        # print("0: ", x.size()) # [138, 206, 3]
         x = x.unsqueeze(3)
-        print("1: ", x.size()) # [138, 206, 3, 1]
+        # print("1: ", x.size()) # [138, 206, 3, 1]
         x = self.conv1(x)
-        print("2: ", x.size()) # [138, 32, 5, 3]
+        # print("2: ", x.size()) # [138, 32, 5, 3]
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("3: ", x.size()) # [138, 32, 2, 1]
+        # print("3: ", x.size()) # [138, 32, 2, 1]
         x = self.conv2(x)
-        print("4: ", x.size()) # [138, 64, 4, 3]
+        # print("4: ", x.size()) # [138, 64, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("5: ", x.size()) # [138, 64, 2, 1]
+        # print("5: ", x.size()) # [138, 64, 2, 1]
         x = self.conv3(x)
-        print("6: ", x.size()) # [138, 128, 4, 3]
+        # print("6: ", x.size()) # [138, 128, 4, 3]
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        print("7: ", x.size()) # [138, 128, 2, 1]
+        # print("7: ", x.size()) # [138, 128, 2, 1]
         x = x.view(x.size(0), -1)
-        print("8: ", x.size()) # [138, 256]
+        # print("8: ", x.size()) # [138, 256]
         x = self.fc1(x)
-        print("9: ", x.size()) # [138, 64]
+        # print("9: ", x.size()) # [138, 64]
         return x
 
 class RS_LeNet_Autoencoder(BaseNet):
@@ -76,43 +76,43 @@ class RS_LeNet_Autoencoder(BaseNet):
         nn.init.xavier_uniform_(self.deconv4.weight, gain=nn.init.calculate_gain('leaky_relu'))
 
     def forward(self, x):
-        print("00: ", x.size()) # [39, 30, 6]
+        # print("00: ", x.size()) # [39, 30, 6]
         x = x.unsqueeze(3)
-        print("01: ", x.size()) # [39, 30, 6, 1]
+        # print("01: ", x.size()) # [39, 30, 6, 1]
         x = self.conv1(x)
-        print("02: ", x.size()) # [39, 32, 8, 3]
+        # print("02: ", x.size()) # [39, 32, 8, 3]
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("03: ", x.size()) # [39, 32, 4, 1]
+        # print("03: ", x.size()) # [39, 32, 4, 1]
         x = self.conv2(x)
-        print("04: ", x.size()) # [39, 64, 6, 3]
+        # print("04: ", x.size()) # [39, 64, 6, 3]
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("05: ", x.size()) # [39, 64, 3, 1]
+        # print("05: ", x.size()) # [39, 64, 3, 1]
         x = self.conv3(x)
-        print("06: ", x.size()) # [39, 128, 5, 3]
+        # print("06: ", x.size()) # [39, 128, 5, 3]
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        print("07: ", x.size()) # [39, 128, 2, 1]
+        # print("07: ", x.size()) # [39, 128, 2, 1]
         x = x.view(x.size(0), -1)
-        print("08: ", x.size()) # [39, 256]
+        # print("08: ", x.size()) # [39, 256]
         x = self.bn1d(self.fc1(x))
-        print("09: ", x.size()) # [39, 64]
+        # print("09: ", x.size()) # [39, 64]
         x = x.view(x.size(0), int(64 / (2 * 2)), 2, 2)
-        print("10: ", x.size()) # [39, 16, 2, 2]
+        # print("10: ", x.size()) # [39, 16, 2, 2]
         x = F.leaky_relu(x)
-        print("11: ", x.size()) # [39, 16, 2, 2]
+        # print("11: ", x.size()) # [39, 16, 2, 2]
         x = self.deconv1(x)
-        print("12: ", x.size()) # [39, 128, 2, 2]
+        # print("12: ", x.size()) # [39, 128, 2, 2]
         x = F.interpolate(F.leaky_relu(self.bn2d4(x)), scale_factor=2)
-        print("13: ", x.size()) # [39, 128, 4, 4]
+        # print("13: ", x.size()) # [39, 128, 4, 4]
         x = self.deconv2(x)
-        print("14: ", x.size()) # [39, 64, 2, 2]
+        # print("14: ", x.size()) # [39, 64, 2, 2]
         x = F.interpolate(F.leaky_relu(self.bn2d5(x)), scale_factor=2)
-        print("15: ", x.size()) # [39, 64, 4, 4]
+        # print("15: ", x.size()) # [39, 64, 4, 4]
         x = self.deconv3(x)
-        print("16: ", x.size()) # [39, 32, 2, 2]
+        # print("16: ", x.size()) # [39, 32, 2, 2]
         x = F.interpolate(F.leaky_relu(self.bn2d6(x)), scale_factor=2)
-        print("17: ", x.size()) # [39, 32, 4, 4]
+        # print("17: ", x.size()) # [39, 32, 4, 4]
         x = self.deconv4(x)
-        print("18: ", x.size()) # [39, 30, 2, 2]
+        # print("18: ", x.size()) # [39, 30, 2, 2]
         x = torch.sigmoid(x)
-        print("19: ", x.size()) # [39, 30, 2, 2]
+        # print("19: ", x.size()) # [39, 30, 2, 2]
         return x[:,:,:,0]
