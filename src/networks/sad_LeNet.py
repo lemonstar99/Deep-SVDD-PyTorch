@@ -15,9 +15,9 @@ class SAD_LeNet(BaseNet):
 
         self.conv1 = nn.Conv2d(93, 32, 3, bias=False, padding=2)
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
-        self.conv2 = nn.Conv2d(32, 64, 3, bias=False, padding=2)
+        self.conv2 = nn.Conv2d(32, 64, 4, bias=False, padding=2)
         self.bn2d2 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
-        self.conv3 = nn.Conv2d(64, 128, 3, bias=False, padding=2)
+        self.conv3 = nn.Conv2d(64, 128, 4, bias=False, padding=2)
         self.bn2d3 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
         self.fc1 = nn.Linear(256, 64, bias=False)
     
