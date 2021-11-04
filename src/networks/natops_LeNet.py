@@ -15,32 +15,36 @@ class NATOPS_LeNet(BaseNet):
 
         self.conv1 = nn.Conv2d(51, 32, 3, bias=False, padding=2)
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
-        self.conv2 = nn.Conv2d(32, 64, 3, bias=False, padding=2)
+        self.conv2 = nn.Conv2d(32, 64, 4, bias=False, padding=2)
         self.bn2d2 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
-        self.conv3 = nn.Conv2d(64, 128, 3, bias=False, padding=2)
+        self.conv3 = nn.Conv2d(64, 128, 4, bias=False, padding=2)
         self.bn2d3 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
+        self.conv4 = nn.Conv2d(128, 128, 4, bias=False, padding=2)
+        self.bn2d4 = nn.BatchNorm2d(128, eps=1e-04, affine=False)
         self.fc1 = nn.Linear(256, 64, bias=False)
     
     def forward(self, x):
-        print("0: ", x.size()) # []
+        # print("0: ", x.size()) # []
         x = x.unsqueeze(3)
-        print("1: ", x.size()) # []
+        # print("1: ", x.size()) # []
         x = self.conv1(x)
-        print("2: ", x.size()) # []
+        # print("2: ", x.size()) # []
         x = self.pool(F.leaky_relu(self.bn2d1(x)))
-        print("3: ", x.size()) # []
+        # print("3: ", x.size()) # []
         x = self.conv2(x)
-        print("4: ", x.size()) # []
+        # print("4: ", x.size()) # []
         x = self.pool(F.leaky_relu(self.bn2d2(x)))
-        print("5: ", x.size()) # []
+        # print("5: ", x.size()) # []
         x = self.conv3(x)
-        print("6: ", x.size()) # []
+        # print("6: ", x.size()) # []
         x = self.pool(F.leaky_relu(self.bn2d3(x)))
-        print("7: ", x.size()) # []
+        # print("7: ", x.size()) # []
+        x = self.conv4(x)
+        x = self.pool(F.leaky_relu(self.bn2d4(x)))
         x = x.view(x.size(0), -1)
-        print("8: ", x.size()) # []
+        # print("8: ", x.size()) # []
         x = self.fc1(x)
-        print("9: ", x.size()) # []
+        # print("9: ", x.size()) # []
         return x
 
 class NATOPS_LeNet_Autoencoder(BaseNet):
@@ -72,10 +76,10 @@ class NATOPS_LeNet_Autoencoder(BaseNet):
         self.deconv2 = nn.ConvTranspose2d(128, 64, 3, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv2.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d5 = nn.BatchNorm2d(64, eps=1e-04, affine=False)
-        self.deconv3 = nn.ConvTranspose2d(64, 32, 3, bias=False, padding=2)
+        self.deconv3 = nn.ConvTranspose2d(64, 32, 4, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv3.weight, gain=nn.init.calculate_gain('leaky_relu'))
         self.bn2d6 = nn.BatchNorm2d(32, eps=1e-04, affine=False)
-        self.deconv4 = nn.ConvTranspose2d(32, 51, 4, bias=False, padding=2)
+        self.deconv4 = nn.ConvTranspose2d(32, 51, 5, bias=False, padding=2)
         nn.init.xavier_uniform_(self.deconv4.weight, gain=nn.init.calculate_gain('leaky_relu'))
 
     def forward(self, x):
