@@ -39,7 +39,7 @@ class RS_Dataset(TorchvisionDataset):
         # train only on normal data, extracting normal data
         x_final_train, y_final_train, index_final_train = get_training_set(x_train, y_train, index_train)
 
-        print("size: ", x_final_train.shape)
+        # print("size: ", x_final_train.shape)
         train_set = TensorDataset(torch.Tensor(x_final_train), torch.Tensor(y_final_train), torch.Tensor(index_final_train))
         self.train_set = train_set
 

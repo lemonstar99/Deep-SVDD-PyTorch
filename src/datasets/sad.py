@@ -45,6 +45,20 @@ class SAD_Dataset(TorchvisionDataset):
         x_dim12_train, __ = get_data(url12_train)
         x_dim13_train, __ = get_data(url13_train)
 
+        x_dim1_train = get_features(x_dim1_train)
+        x_dim2_train = get_features(x_dim2_train)
+        x_dim3_train = get_features(x_dim3_train)
+        x_dim4_train = get_features(x_dim4_train)
+        x_dim5_train = get_features(x_dim5_train)
+        x_dim6_train = get_features(x_dim6_train)
+        x_dim7_train = get_features(x_dim7_train)
+        x_dim8_train = get_features(x_dim8_train)
+        x_dim9_train = get_features(x_dim9_train)
+        x_dim10_train = get_features(x_dim10_train)
+        x_dim11_train = get_features(x_dim11_train)
+        x_dim12_train = get_features(x_dim12_train)
+        x_dim13_train = get_features(x_dim13_train)
+
         # combine 13 dimensions of x
         x_train = np.dstack([x_dim1_train, x_dim2_train, x_dim3_train, x_dim4_train, x_dim5_train, x_dim6_train, x_dim7_train, x_dim8_train, x_dim9_train, x_dim10_train, x_dim11_train, x_dim12_train, x_dim13_train])
         # process output y and produce index
@@ -86,6 +100,20 @@ class SAD_Dataset(TorchvisionDataset):
         x_dim12_test, __ = get_data(url12_test)
         x_dim13_test, __ = get_data(url13_test)
 
+        x_dim1_test = get_features(x_dim1_test)
+        x_dim2_test = get_features(x_dim2_test)
+        x_dim3_test = get_features(x_dim3_test)
+        x_dim4_test = get_features(x_dim4_test)
+        x_dim5_test = get_features(x_dim5_test)
+        x_dim6_test = get_features(x_dim6_test)
+        x_dim7_test = get_features(x_dim7_test)
+        x_dim8_test = get_features(x_dim8_test)
+        x_dim9_test = get_features(x_dim9_test)
+        x_dim10_test = get_features(x_dim10_test)
+        x_dim11_test = get_features(x_dim11_test)
+        x_dim12_test = get_features(x_dim12_test)
+        x_dim13_test = get_features(x_dim13_test)
+
         x_final_test = np.dstack([x_dim1_test, x_dim2_test, x_dim3_test, x_dim4_test, x_dim5_test, x_dim6_test, x_dim7_test, x_dim8_test, x_dim9_test, x_dim10_test, x_dim11_test, x_dim12_test, x_dim13_test])
         y_final_test, index_test = get_target(target_test, normal_class)
 
@@ -112,6 +140,19 @@ def get_data(url):
     y = df.iloc[:, -1]
 
     return x, y
+
+def get_features(x):
+    """
+    input: unprocessed features data
+    This function replaces missing values with zeroes.
+    output: processed features data
+    """
+    for i in range(0, len(x)):
+        for j in range(0, 93):
+            if pd.isna(x[i][j]):
+                x[i][j] = 0
+    
+    return x
 
 
 def get_target(y, normal_class):

@@ -75,9 +75,9 @@ class CT_Dataset(TorchvisionDataset):
             else:
                 y_test.append(1)
 
-        print("count: ", cnt)
-        print ("y_train: ", y_train)
-        print("normal class: ", normal_class)
+        # print("count: ", cnt)
+        # print ("y_train: ", y_train)
+        # print("normal class: ", normal_class)
         # print ("y_total: ", y_total)
         """
 

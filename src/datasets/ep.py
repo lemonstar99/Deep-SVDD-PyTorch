@@ -16,9 +16,9 @@ class EP_Dataset(TorchvisionDataset):
 
         # train set
         #load data file path
-        url1_train = '../data/epilepsy/EpilepsyDimension1_TRAIN.arff'
-        url2_train = '../data/epilepsy/EpilepsyDimension2_TRAIN.arff'
-        url3_train = '../data/epilepsy/EpilepsyDimension3_TRAIN.arff'
+        url1_train = '../data/ep/EpilepsyDimension1_TRAIN.arff'
+        url2_train = '../data/ep/EpilepsyDimension2_TRAIN.arff'
+        url3_train = '../data/ep/EpilepsyDimension3_TRAIN.arff'
 
         # get x and y as dataframe
         x_dim1_train, target_train = get_data(url1_train)
@@ -33,14 +33,14 @@ class EP_Dataset(TorchvisionDataset):
         # train only on normal data, extracting normal data
         x_final_train, y_final_train, index_final_train = get_training_set(x_train, y_train, index_train)
 
-        print("size: ", x_final_train.shape)
+        # print("size: ", x_final_train.shape)
         train_set = TensorDataset(torch.Tensor(x_final_train), torch.Tensor(y_final_train), torch.Tensor(index_final_train))
         self.train_set = train_set
 
         # set up testing set
-        url1_test = '../data/epilepsy/EpilepsyDimension1_TEST.arff'
-        url2_test = '../data/epilepsy/EpilepsyDimension2_TEST.arff'
-        url3_test = '../data/epilepsy/EpilepsyDimension3_TEST.arff'
+        url1_test = '../data/ep/EpilepsyDimension1_TEST.arff'
+        url2_test = '../data/ep/EpilepsyDimension2_TEST.arff'
+        url3_test = '../data/ep/EpilepsyDimension3_TEST.arff'
 
         x_dim1_test, target_test = get_data(url1_test)
         x_dim2_test, __ = get_data(url2_test)
